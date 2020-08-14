@@ -1,0 +1,12 @@
+body{
+    min-width: 300px;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+.description{
+    text-align: center;
+}
