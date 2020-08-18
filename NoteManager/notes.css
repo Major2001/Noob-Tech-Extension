@@ -1,0 +1,62 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 1.2rem;
+}
+i {
+  cursor: pointer;
+}
+#notebox {
+  padding: 1rem;
+}
+
+.newnote {
+  border: 1px solid #33b5e5;
+  color: #fff;
+  font-weight: bold;
+  background: #33b5e5;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+.newnote:focus {
+  outline: none;
+  cursor: pointer;
+}
+i {
+  margin-left: 10px;
+}
+.mynote {
+  padding: 1rem;
+  margin: 0.6rem;
+  background-color: yellow;
+
+  border: black solid thin;
+  box-shadow: yellowgreen 1px 3px 5px;
+  border-radius: 10px;
+}
+.mynotes {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.headernote {
+  background-color: rgb(255, 255, 82);
+}
+.mynote-title {
+  padding: 2%;
+  overflow-wrap: break-word;
+  font-family: "Caveat", cursive;
+}
+.mynote-body {
+  padding: 2%;
+  overflow-wrap: break-word;
+  font-family: "Caveat", cursive;
+}
+.mynote-close {
+  float: right;
+}

@@ -1,12 +1,29 @@
-body{
-    min-width: 300px;
+body {
+  min-width: 300px;
+  font-size: 1.1rem;
 }
-.container{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
 }
-.description{
-    text-align: center;
+.description {
+  text-align: center;
+}
+.all-notes {
+  font-weight: bold;
+  text-decoration: none;
+  margin: 0.7rem;
+  border: 1px solid #00C851;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  padding: 0.3rem;
+  background: #00C851;
+  cursor: pointer;
+  color: #fff;
+}
+
+.all-notes:focus {
+  outline: none;
 }
