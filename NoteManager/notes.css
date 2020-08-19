@@ -57,6 +57,18 @@ i {
   overflow-wrap: break-word;
   font-family: "Caveat", cursive;
 }
+.mynote-date {
+  padding: 0;
+  overflow-wrap: break-word;
+  font-family: "Caveat", cursive;
+  float: right;
+}
+.mynote-url {
+  padding: 0;
+  overflow-wrap: break-word;
+  font-family: "Caveat", cursive;
+  color: blue;
+}
 .mynote-close {
   float: right;
 }

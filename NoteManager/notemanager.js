@@ -4,7 +4,7 @@ export default class NoteManager {
     this.el = el;
     this.notes = notes.map((note) => new Note(note, this));
     this.onnotechange = (noteobj) => {};
-    this.onnoteadd = (noteobj) => {};
+    
     this.renderNotes();
   }
   compare(a, b) {
@@ -45,7 +45,22 @@ export default class NoteManager {
   addnote(note) {
     const noteobj = new Note(note, this);
     this.notes.push(noteobj);
-    this.onnoteadd(noteobj);
+    chrome.storage.sync.set(
+      {
+        notes: this.notes,
+      },
+      () => {
+        const notif = {
+          type: "basic",
+          iconUrl: "tick.png",
+          title: "Stick It!",
+          message: "You note has been created!",
+        };
+        chrome.notifications.create("createNote", notif);
+        this.renderNotes();
+      }
+    );
+  
     this.renderNotes();
   }
 }

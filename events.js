@@ -33,6 +33,7 @@ chrome.contextMenus.onClicked.addListener((data) => {
               notes: [
                 ...data.notes,
                 {
+                  title: 'Note added',
                   body: selectedText,
                   time: time,
                   date: date,
@@ -53,5 +54,6 @@ chrome.contextMenus.onClicked.addListener((data) => {
         }
       );
     });
+    
   }
 });
