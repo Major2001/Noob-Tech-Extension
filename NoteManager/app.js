@@ -12,26 +12,38 @@ const getTime = async () => {
   time = res[1].split(".")[0];
 };
 
-
 chrome.storage.sync.get("notes", (data) => {
   const notemanager = new NoteManager({
     el: document.querySelector(".mynotes"),
     notes: data.notes,
   });
-  
+
   const newnotebtn = document.querySelector(".newnote");
-  newnotebtn.onclick = () => {
+  newnotebtn.onclick = async () => {
+    await getTime();
     notemanager.addnote({
       title: " Note added ",
       body: " (...click to add body...) ",
       time: time,
       date: date,
-      url:'created by you'
-
+      url: "#",
     });
   };
 
-  notemanager.onnotechange=(noteobj)=>{
-    console.log(noteobj);
-};
+  notemanager.onnotechange = (noteobj) => {
+    chrome.storage.sync.get("notes", (newData) => {
+      let idx = 0;
+      idx = newData.notes.indexOf(
+        newData.notes.find((note) => note.time === noteobj.time)
+      );
+      let notesArray = [...newData.notes];
+      notesArray.splice(idx, 1);
+      notesArray = [...notesArray, noteobj];
+      console.log(newData.notes);
+      console.log(notesArray);
+      chrome.storage.sync.set({ notes: notesArray }, () => {
+        console.log("Set");
+      });
+    });
+  };
 });

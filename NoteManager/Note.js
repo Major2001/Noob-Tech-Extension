@@ -66,7 +66,7 @@ export default class Note {
     body.onclick = () =>{
       if(this.body === " (...click to add body...) "){
       this.body = " ";
-      this.notemanager.renderNotes();
+      this.notemanager.renderNotes("add-note");
       this.notemanager.onnotechange(this);
       }
     };

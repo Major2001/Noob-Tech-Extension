@@ -4,7 +4,7 @@ export default class NoteManager {
     this.el = el;
     this.notes = notes.map((note) => new Note(note, this));
     this.onnotechange = (noteobj) => {};
-    
+
     this.renderNotes();
   }
   compare(a, b) {
@@ -14,9 +14,11 @@ export default class NoteManager {
       return -1;
     }
   }
-  renderNotes() {
+  renderNotes(event = "normal-render") {
     this.el.innerHTML = "";
-    this.notes.sort(this.compare);
+    if (event === "normal-render") {
+      this.notes.sort(this.compare);
+    }
     this.notes.forEach((note) => this.rendernote(note.getElement()));
   }
   rendernote(noteel) {
@@ -45,6 +47,7 @@ export default class NoteManager {
   addnote(note) {
     const noteobj = new Note(note, this);
     this.notes.push(noteobj);
+    console.log(this.notes);
     chrome.storage.sync.set(
       {
         notes: this.notes,
@@ -60,7 +63,5 @@ export default class NoteManager {
         this.renderNotes();
       }
     );
-  
-    this.renderNotes();
   }
 }
