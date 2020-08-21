@@ -6,9 +6,7 @@ body {
   padding: 0;
   font-size: 1.2rem;
 }
-i {
-  cursor: pointer;
-}
+
 #notebox {
   padding: 1rem;
   display: flex;
@@ -29,8 +27,10 @@ i {
   outline: none;
   cursor: pointer;
 }
-i {
-  margin-left: 10px;
+i{
+  margin: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }
 .mynote {
   padding: 1rem;
@@ -50,10 +50,20 @@ i {
 }
 .headernote {
   background-color: rgb(255, 255, 82);
+  display: flex;
+  justify-content: space-between;
+  padding: 0.7rem;
+  align-items: center;
+}
+.mynote-buttons{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .mynote-title {
-  padding: 2%;
+  margin-right: 1rem;
   overflow-wrap: break-word;
+  max-width: 1300px;
   font-family: "Caveat", cursive;
 }
 .mynote-body {
@@ -74,6 +84,7 @@ i {
   font-family: "Caveat", cursive;
   color: blue;
 }
-.mynote-close {
-  float: right;
+.pinned{
+  color: red;
 }
+

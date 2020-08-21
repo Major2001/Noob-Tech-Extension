@@ -38,6 +38,7 @@ chrome.contextMenus.onClicked.addListener((data) => {
                   time: time,
                   date: date,
                   url: tabs[0].url,
+                  pinned: false,
                 },
               ],
             },

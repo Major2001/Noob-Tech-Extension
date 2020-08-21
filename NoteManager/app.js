@@ -13,11 +13,11 @@ const getTime = async () => {
 };
 
 chrome.storage.sync.get("notes", (data) => {
+  console.log(data.notes);
   const notemanager = new NoteManager({
     el: document.querySelector(".mynotes"),
     notes: data.notes,
   });
-
   const newnotebtn = document.querySelector(".newnote");
   newnotebtn.onclick = async () => {
     await getTime();
@@ -27,6 +27,7 @@ chrome.storage.sync.get("notes", (data) => {
       time: time,
       date: date,
       url: "#",
+      pinned: false,
     });
   };
 

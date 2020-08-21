@@ -1,10 +1,11 @@
 export default class Note {
-  constructor({ title, body ,date,time,url }, notemanager) {
+  constructor({ title, body, date, time, url ,pinned}, notemanager) {
     this.title = title;
     this.body = body;
     this.date = date;
-    this.time =time;
-    this.url =url;
+    this.time = time;
+    this.url = url;
+    this.pinned = pinned;
     this.el = null;
     this.notemanager = notemanager;
   }
@@ -14,28 +15,36 @@ export default class Note {
     tempdiv.innerHTML = tpl
       .replace("{{title}}", this.title)
       .replace("{{body}}", this.body)
-      .replace("{{date}}",this.date)
-      .replace("{{time}}",this.time)
-      .replace("{{url}}",this.url)
-      .replace("{{url-1}}",this.url);
+      .replace("{{date}}", this.date)
+      .replace("{{time}}", this.time)
+      .replace("{{url}}", this.url)
+      .replace("{{url-1}}", this.url);
 
     this.el = tempdiv.children[0];
-    
-    this.eventlisteners();
 
+    this.eventlisteners();
+    if (this.pinned) {
+      this.el.children[0].children[1].children[0].classList.add("pinned");
+    } else {
+      this.el.children[0].children[1].children[0].classList.remove("pinned");
+    }
     return this.el;
   }
   gettemplate() {
     return `
         <div class="mynote">
             <div class="headernote">
-                <div class="mynote-close">
-                    <i class="fas fa-trash"></i>
-                </div>
-  
                 <div class="mynote-title" contenteditable >
                     {{title}}
                 </div>
+                <div class="mynote-buttons">
+                  <div class="mynote-pin">
+                    <i class="fas fa-thumbtack"></i>
+                  </div> 
+                  <div class="mynote-close">
+                      <i class="fas fa-trash"></i>
+                  </div>
+                </div> 
             </div>
             <div class="mynote-body" contenteditable>
                 {{body}}
@@ -52,22 +61,25 @@ export default class Note {
 
   eventlisteners() {
     const closebtn = this.el.querySelector(".mynote-close");
+    const pinBtn = this.el.querySelector(".mynote-pin");
     closebtn.onclick = () => {
       this.notemanager.removenote(this);
     };
-
+    pinBtn.onclick = () => {
+      this.notemanager.handlePin(this);
+    };
     const title = this.el.querySelector(".mynote-title");
-    
+
     title.oninput = (ev) => {
       this.title = ev.target.innerHTML;
       this.notemanager.onnotechange(this);
     };
     const body = this.el.querySelector(".mynote-body");
-    body.onclick = () =>{
-      if(this.body === " (...click to add body...) "){
-      this.body = " ";
-      this.notemanager.renderNotes("add-note");
-      this.notemanager.onnotechange(this);
+    body.onclick = () => {
+      if (this.body === " (...click to add body...) ") {
+        this.body = " ";
+        this.notemanager.renderNotes("add-note");
+        this.notemanager.onnotechange(this);
       }
     };
     body.oninput = (ev) => {

@@ -4,7 +4,7 @@ export default class NoteManager {
     this.el = el;
     this.notes = notes.map((note) => new Note(note, this));
     this.onnotechange = (noteobj) => {};
-
+    console.log(notes,this.notes);
     this.renderNotes();
   }
   compare(a, b) {
@@ -39,6 +39,19 @@ export default class NoteManager {
           message: "You note has been successfully deleted!",
         };
         chrome.notifications.create("deleteNote", notif);
+        this.renderNotes();
+      }
+    );
+  }
+
+  handlePin(note) {
+    const requiredNote = this.notes.find((eachNote) => eachNote === note);
+    requiredNote.pinned = !requiredNote.pinned;
+    chrome.storage.sync.set(
+      {
+        notes: this.notes,
+      },
+      () => {
         this.renderNotes();
       }
     );
