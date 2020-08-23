@@ -38,12 +38,12 @@ body {
   justify-content: center;
 }
 .popup-title {
-  border: 1px solid #dc3545;
+  /* border: 1px solid #dc3545; */
   padding: 0.4rem;
   border-radius: 10px;
   background: #dc3545;
   color: white;
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 i {
   margin: 0.5rem;

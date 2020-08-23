@@ -56,4 +56,52 @@ chrome.contextMenus.onClicked.addListener((data) => {
       );
     });
   }
+  else{
+    console.log(data);
+    if(data.mediaType=="image")
+    {
+      var tempdiv=`<img src="${data.srcUrl}" style="max-width:50%;">`;
+      chrome.storage.sync.get("notes", async (data) => {
+        console.log(data.notes);
+        await getTime();
+        chrome.tabs.query(
+          { active: true, windowId: chrome.windows.WINDOW_ID_CURRENT },
+          (tabs) => {
+            chrome.storage.sync.set(
+              {
+                notes: [
+                  ...data.notes,
+                  {
+                    title: "Note added",
+                    body: tempdiv,
+                    time: time,
+                    date: date,
+                    url: tabs[0].url,
+                  },
+                ],
+              },
+              () => {
+                const notif = {
+                  type: "basic",
+                  iconUrl: "tick.png",
+                  title: "Stick It!",
+                  message: "You note has been created!",
+                };
+                chrome.notifications.create("createNote", notif);
+              }
+            );
+          }
+        );
+      });
+    }
+  }
+});
+
+chrome.storage.onChanged.addListener(function(changes,storageName){
+    
+  chrome.storage.sync.get("notes", async (data) => {
+    console.log(data);
+    chrome.browserAction.setBadgeText({"text": data.notes.length.toString()});
+   });
+  console.log("change");
 });

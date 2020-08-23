@@ -69,7 +69,7 @@ export default class NoteManager {
   }
 
   addnote(note) {
-    const noteobj = new Note(note, this);
+    const noteobj = new Note(note, this,this.page);
     this.notes.push(noteobj);
     console.log(this.notes);
     chrome.storage.sync.set(
@@ -87,5 +87,8 @@ export default class NoteManager {
         this.renderNotes();
       }
     );
+  }
+  stopdisplay(){
+    this.el.innerHTML = " ";
   }
 }
