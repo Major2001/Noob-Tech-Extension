@@ -54,7 +54,6 @@ i {
   padding: 1rem;
   margin: 0.6rem;
   background-color: yellow;
-
   box-shadow: yellowgreen 1px 3px 5px;
   border-radius: 10px;
   max-width: 90vw;
@@ -95,6 +94,7 @@ i {
   font-family: "Caveat", cursive;
 }
 .mynote-body {
+  
   padding: 2%;
   overflow-wrap: break-word;
   font-family: "Caveat", cursive;
@@ -123,6 +123,12 @@ i {
   position: relative;
   margin: 1rem;
   max-width: 600px;
+}
+.note-image{
+  max-width: 75vw;
+  display: block;
+  margin: 0 auto;
+  object-fit: contain;
 }
 .hidden {
   display: none;

@@ -1,11 +1,11 @@
 import Note from "../NoteManager/Note.js";
 export default class NoteManager {
-  constructor({ el, notes ,page}) {
+  constructor({ el, notes, page }) {
     this.el = el;
     this.page = page;
-    this.notes = notes.map((note) => new Note(note, this,page));
+    this.notes = notes.map((note) => new Note(note, this, page));
     this.onnotechange = (noteobj) => {};
-    console.log(notes,this.notes);
+    console.log(notes, this.notes);
     this.renderNotes();
   }
   compare(a, b) {
@@ -20,9 +20,9 @@ export default class NoteManager {
     if (event === "normal-render") {
       this.notes.sort(this.compare);
     }
-    if(this.page == "all-page"){
+    if (this.page == "all-page") {
       this.notes.forEach((note) => this.rendernote(note.getElement()));
-    }else{
+    } else {
       let pinnedNotes = [];
       this.notes.forEach((note) => {
         if (note.pinned) {
@@ -69,7 +69,7 @@ export default class NoteManager {
   }
 
   addnote(note) {
-    const noteobj = new Note(note, this,this.page);
+    const noteobj = new Note(note, this, this.page);
     this.notes.push(noteobj);
     console.log(this.notes);
     chrome.storage.sync.set(
@@ -88,7 +88,7 @@ export default class NoteManager {
       }
     );
   }
-  stopdisplay(){
+  stopdisplay() {
     this.el.innerHTML = " ";
   }
 }

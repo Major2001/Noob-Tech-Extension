@@ -49,29 +49,29 @@ chrome.storage.sync.get("notes", (data) => {
     });
   };
 
-  var srchbar=document.querySelector('.searchin');
-   
-srchbar.oninput = () =>{
+  var srchbar = document.querySelector(".searchin");
+
+  srchbar.oninput = () => {
     console.log(srchbar.value);
     console.log(notemanager);
     notemanager.stopdisplay();
-   var el= document.querySelector(".mynotes");
-   var c=0;
-   for(var i=0;i<notemanager.notes.length;i++)
-     {
-     
-         if(notemanager.notes[i].body.toUpperCase().indexOf(srchbar.value.toUpperCase())>-1)
-         {
-           c++;
-           console.log(notemanager.notes[i].body.indexOf(srchbar.value));
-          
-           var noteel=notemanager.notes[i].getElement();
-           el.appendChild(noteel);
-         }
-     } 
-     if(c===0){
-       el.innerHTML="<h2>...No notes found...</h2>";
-     }    
+    var el = document.querySelector(".mynotes");
+    var c = 0;
+    for (var i = 0; i < notemanager.notes.length; i++) {
+      if (
+        notemanager.notes[i].body
+          .toUpperCase()
+          .indexOf(srchbar.value.toUpperCase()) > -1
+      ) {
+        c++;
+        console.log(notemanager.notes[i].body.indexOf(srchbar.value));
 
-   }
+        var noteel = notemanager.notes[i].getElement();
+        el.appendChild(noteel);
+      }
+    }
+    if (c === 0) {
+      el.innerHTML = "<h2>...No notes found...</h2>";
+    }
+  };
 });

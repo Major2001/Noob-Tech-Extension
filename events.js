@@ -55,12 +55,10 @@ chrome.contextMenus.onClicked.addListener((data) => {
         }
       );
     });
-  }
-  else{
+  } else {
     console.log(data);
-    if(data.mediaType=="image")
-    {
-      var tempdiv=`<img src="${data.srcUrl}" style="max-width:50%;">`;
+    if (data.mediaType == "image") {
+      var tempdiv = `<img src="${data.srcUrl}" class="note-image">`;
       chrome.storage.sync.get("notes", async (data) => {
         console.log(data.notes);
         await getTime();
@@ -97,11 +95,10 @@ chrome.contextMenus.onClicked.addListener((data) => {
   }
 });
 
-chrome.storage.onChanged.addListener(function(changes,storageName){
-    
+chrome.storage.onChanged.addListener(function (changes, storageName) {
   chrome.storage.sync.get("notes", async (data) => {
     console.log(data);
-    chrome.browserAction.setBadgeText({"text": data.notes.length.toString()});
-   });
+    chrome.browserAction.setBadgeText({ text: data.notes.length.toString() });
+  });
   console.log("change");
 });

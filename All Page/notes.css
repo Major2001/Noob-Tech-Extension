@@ -10,6 +10,7 @@ body {
 #notebox {
   padding: 1rem;
   display: flex;
+  height: 100vh;
   flex-direction: column;
   align-items: center;
 }
@@ -27,7 +28,7 @@ body {
   outline: none;
   cursor: pointer;
 }
-i{
+i {
   margin: 0.5rem;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
@@ -36,8 +37,6 @@ i{
   padding: 1rem;
   margin: 0.6rem;
   background-color: yellow;
-
-  border: black solid thin;
   box-shadow: yellowgreen 1px 3px 5px;
   border-radius: 10px;
   max-width: 90vw;
@@ -48,15 +47,18 @@ i{
   flex-wrap: wrap;
   justify-content: center;
 }
+.srchbar{
+  margin: 1rem;
+}
 .headernote {
   background-color: rgb(255, 255, 82);
   display: flex;
   justify-content: space-between;
   overflow-wrap: break-word;
-  padding: 0.7rem;
+  padding: 0.5rem;
   align-items: center;
 }
-.mynote-buttons{
+.mynote-buttons {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -64,13 +66,21 @@ i{
 .mynote-title {
   margin-right: 1rem;
   overflow-wrap: break-word;
-  max-width: 1300px;
+  max-width: 80vw;
+  min-width: 100px;
   font-family: "Caveat", cursive;
+
+}
+.mynote-title:focus{
+  outline: none;
 }
 .mynote-body {
   padding: 2%;
   overflow-wrap: break-word;
   font-family: "Caveat", cursive;
+}
+.mynote-body:focus{
+  outline: none;
 }
 .mynote-date {
   padding: 0;
@@ -85,11 +95,24 @@ i{
   font-family: "Caveat", cursive;
   color: blue;
 }
-.pinned{
+.pinned {
   color: red;
 }
 
-.searchin{
+.searchin {
   width: 50rem;
+  padding: 1rem;
+  font-size: 1.2rem;
   height: 2rem;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+.note-image{
+  object-fit: contain;
+  max-width: 80vw;
+  display: block;
+  margin: 0 auto;
+}
+.searchin:focus{
+  outline: none;
 }
