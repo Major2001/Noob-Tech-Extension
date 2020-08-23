@@ -1,0 +1,129 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 300px;
+  font-size: 1.1rem;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+.description {
+  text-align: center;
+}
+.all-notes {
+  font-weight: bold;
+  text-decoration: none;
+  margin: 0.7rem;
+  border: 1px solid #00c851;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  padding: 0.3rem;
+  background: #00c851;
+  cursor: pointer;
+  color: #fff;
+}
+
+.all-notes:focus {
+  outline: none;
+}
+.pinned-notes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+.popup-title {
+  border: 1px solid #dc3545;
+  padding: 0.4rem;
+  border-radius: 10px;
+  background: #dc3545;
+  color: white;
+  font-weight: bold;
+}
+i {
+  margin: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+.mynote {
+  padding: 1rem;
+  margin: 0.6rem;
+  background-color: yellow;
+
+  box-shadow: yellowgreen 1px 3px 5px;
+  border-radius: 10px;
+  max-width: 90vw;
+}
+.mynote::before {
+  content: "";
+  position: absolute;
+  top: 34px;
+  left: 50%;
+  margin-right: -5px;
+  border-width: 8px;
+  border-style: solid;
+  border-color: transparent transparent yellow transparent;
+  outline: black;
+}
+.mynotes {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.headernote {
+  background-color: rgb(255, 255, 82);
+  display: flex;
+  justify-content: space-between;
+  padding: 0.7rem;
+  align-items: center;
+}
+.mynote-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.mynote-title {
+  margin-right: 1rem;
+  overflow-wrap: break-word;
+  max-width: 1300px;
+  font-family: "Caveat", cursive;
+}
+.mynote-body {
+  padding: 2%;
+  overflow-wrap: break-word;
+  font-family: "Caveat", cursive;
+}
+.mynote-date {
+  padding: 0;
+  margin-left: 1rem;
+  overflow-wrap: break-word;
+  font-family: "Caveat", cursive;
+  float: right;
+}
+.mynote-url {
+  padding: 0;
+  overflow-wrap: break-word;
+  font-family: "Caveat", cursive;
+  color: blue;
+}
+.pinned {
+  color: red;
+}
+.pinned-container {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin: 1rem;
+  max-width: 600px;
+}
+.hidden {
+  display: none;
+}

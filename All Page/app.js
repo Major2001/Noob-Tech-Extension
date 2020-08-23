@@ -1,4 +1,4 @@
-import NoteManager from "./notemanager.js";
+import NoteManager from "../NoteManager/notemanager.js";
 // import Note from "./Note";
 
 let date = "",
@@ -17,6 +17,7 @@ chrome.storage.sync.get("notes", (data) => {
   const notemanager = new NoteManager({
     el: document.querySelector(".mynotes"),
     notes: data.notes,
+    page: "all-page",
   });
   const newnotebtn = document.querySelector(".newnote");
   newnotebtn.onclick = async () => {

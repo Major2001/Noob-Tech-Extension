@@ -1,8 +1,9 @@
-import Note from "./Note.js";
+import Note from "../NoteManager/Note.js";
 export default class NoteManager {
-  constructor({ el, notes }) {
+  constructor({ el, notes ,page}) {
     this.el = el;
-    this.notes = notes.map((note) => new Note(note, this));
+    this.page = page;
+    this.notes = notes.map((note) => new Note(note, this,page));
     this.onnotechange = (noteobj) => {};
     console.log(notes,this.notes);
     this.renderNotes();
@@ -19,7 +20,17 @@ export default class NoteManager {
     if (event === "normal-render") {
       this.notes.sort(this.compare);
     }
-    this.notes.forEach((note) => this.rendernote(note.getElement()));
+    if(this.page == "all-page"){
+      this.notes.forEach((note) => this.rendernote(note.getElement()));
+    }else{
+      let pinnedNotes = [];
+      this.notes.forEach((note) => {
+        if (note.pinned) {
+          pinnedNotes.push(note);
+        }
+      });
+      pinnedNotes.forEach((note) => this.rendernote(note.getElement()));
+    }
   }
   rendernote(noteel) {
     this.el.appendChild(noteel);

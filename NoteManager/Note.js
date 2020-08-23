@@ -1,5 +1,5 @@
 export default class Note {
-  constructor({ title, body, date, time, url ,pinned}, notemanager) {
+  constructor({ title, body, date, time, url, pinned }, notemanager, page) {
     this.title = title;
     this.body = body;
     this.date = date;
@@ -7,13 +7,14 @@ export default class Note {
     this.url = url;
     this.pinned = pinned;
     this.el = null;
+    this.page = page;
     this.notemanager = notemanager;
   }
   getElement() {
     const tpl = this.gettemplate();
     const tempdiv = document.createElement("div");
     tempdiv.innerHTML = tpl
-      .replace("{{title}}", this.title)
+      .replace(/{{title}}/g, this.title)
       .replace("{{body}}", this.body)
       .replace("{{date}}", this.date)
       .replace("{{time}}", this.time)
@@ -22,31 +23,70 @@ export default class Note {
 
     this.el = tempdiv.children[0];
 
-    this.eventlisteners();
-    if (this.pinned) {
-      this.el.children[0].children[1].children[0].classList.add("pinned");
+    if (this.page == "all-page") {
+      this.eventlisteners();
+      if (this.pinned) {
+        this.el.querySelector(".mynote-pin").classList.add("pinned");
+      } else {
+        this.el.querySelector(".mynote-pin").classList.remove("pinned");
+      }
     } else {
-      this.el.children[0].children[1].children[0].classList.remove("pinned");
+      this.eventlistenersPopup();
+      if (this.pinned) {
+        this.el.querySelector(".mynote-pin").classList.add("pinned");
+      } else {
+        this.el.querySelector(".mynote-pin").classList.remove("pinned");
+      }
     }
     return this.el;
   }
   gettemplate() {
-    return `
-        <div class="mynote">
+    switch (this.page) {
+      case "all-page":
+        return `
+      <div class="mynote">
+          <div class="headernote">
+              <div class="mynote-title" contenteditable >
+                  {{title}}
+              </div>
+              <div class="mynote-buttons">
+                <div class="mynote-pin">
+                  <i class="fas fa-thumbtack"></i>
+                </div> 
+                <div class="mynote-close">
+                    <i class="fas fa-trash"></i>
+                </div>
+              </div> 
+          </div>
+          <div class="mynote-body" contenteditable>
+              {{body}}
+          </div>
+          <div class="mynote-date" >
+              {{date}}  {{time}}
+          </div>
+          <div class="mynote-url" ><a href="{{url}}" target="_blank" class="urltag">
+              {{url-1}}</a>
+          </div>
+      </div>
+      `;
+      case "popup":
+        return `
+      <div class="pinned-container">
+        <div class="popup-title">
+          {{title}}
+        </div>
+        <div class="mynote hidden">
             <div class="headernote">
-                <div class="mynote-title" contenteditable >
+                <div class="mynote-title">
                     {{title}}
                 </div>
                 <div class="mynote-buttons">
                   <div class="mynote-pin">
                     <i class="fas fa-thumbtack"></i>
                   </div> 
-                  <div class="mynote-close">
-                      <i class="fas fa-trash"></i>
-                  </div>
                 </div> 
             </div>
-            <div class="mynote-body" contenteditable>
+            <div class="mynote-body">
                 {{body}}
             </div>
             <div class="mynote-date" >
@@ -56,7 +96,9 @@ export default class Note {
                 {{url-1}}</a>
             </div>
         </div>
-        `;
+      </div>
+      `;
+    }
   }
 
   eventlisteners() {
@@ -85,6 +127,15 @@ export default class Note {
     body.oninput = (ev) => {
       this.body = ev.target.innerHTML;
       this.notemanager.onnotechange(this);
+    };
+  }
+  eventlistenersPopup() {
+    const mainParent = this.el;
+    mainParent.querySelector(".popup-title").onclick = () => {
+      mainParent.children[1].classList.toggle("hidden");
+    };
+    mainParent.querySelector(".mynote-pin").onclick = () => {
+      this.notemanager.handlePin(this);
     };
   }
 }
