@@ -5,7 +5,6 @@ export default class NoteManager {
     this.page = page;
     this.notes = notes.map((note) => new Note(note, this, page));
     this.onnotechange = (noteobj) => {};
-    console.log(notes, this.notes);
     this.renderNotes();
   }
   compare(a, b) {
@@ -47,7 +46,7 @@ export default class NoteManager {
           type: "basic",
           iconUrl: "tick.png",
           title: "Stick It!",
-          message: "You note has been successfully deleted!",
+          message: "Note Deleted!",
         };
         chrome.notifications.create("deleteNote", notif);
         this.renderNotes();
@@ -71,7 +70,7 @@ export default class NoteManager {
   addnote(note) {
     const noteobj = new Note(note, this, this.page);
     this.notes.push(noteobj);
-    console.log(this.notes);
+
     chrome.storage.sync.set(
       {
         notes: this.notes,
@@ -81,7 +80,7 @@ export default class NoteManager {
           type: "basic",
           iconUrl: "tick.png",
           title: "Stick It!",
-          message: "You note has been created!",
+          message: "Note Created!",
         };
         chrome.notifications.create("createNote", notif);
         this.renderNotes();

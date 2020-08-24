@@ -23,7 +23,6 @@ chrome.contextMenus.onClicked.addListener((data) => {
   if (data.menuItemId == "SanchitPranav" && data.selectionText) {
     const selectedText = data.selectionText;
     chrome.storage.sync.get("notes", async (data) => {
-      console.log(data.notes);
       await getTime();
       chrome.tabs.query(
         { active: true, windowId: chrome.windows.WINDOW_ID_CURRENT },
@@ -56,11 +55,9 @@ chrome.contextMenus.onClicked.addListener((data) => {
       );
     });
   } else {
-    console.log(data);
     if (data.mediaType == "image") {
       var tempdiv = `<img src="${data.srcUrl}" class="note-image">`;
       chrome.storage.sync.get("notes", async (data) => {
-        console.log(data.notes);
         await getTime();
         chrome.tabs.query(
           { active: true, windowId: chrome.windows.WINDOW_ID_CURRENT },
@@ -83,7 +80,7 @@ chrome.contextMenus.onClicked.addListener((data) => {
                   type: "basic",
                   iconUrl: "tick.png",
                   title: "Stick It!",
-                  message: "You note has been created!",
+                  message: "Note Created!",
                 };
                 chrome.notifications.create("createNote", notif);
               }
@@ -97,8 +94,6 @@ chrome.contextMenus.onClicked.addListener((data) => {
 
 chrome.storage.onChanged.addListener(function (changes, storageName) {
   chrome.storage.sync.get("notes", async (data) => {
-    console.log(data);
     chrome.browserAction.setBadgeText({ text: data.notes.length.toString() });
   });
-  console.log("change");
 });

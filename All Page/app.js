@@ -1,5 +1,4 @@
 import NoteManager from "../NoteManager/notemanager.js";
-// import Note from "./Note";
 
 let date = "",
   time = "";
@@ -13,7 +12,6 @@ const getTime = async () => {
 };
 
 chrome.storage.sync.get("notes", (data) => {
-  console.log(data.notes);
   const notemanager = new NoteManager({
     el: document.querySelector(".mynotes"),
     notes: data.notes,
@@ -41,19 +39,13 @@ chrome.storage.sync.get("notes", (data) => {
       let notesArray = [...newData.notes];
       notesArray.splice(idx, 1);
       notesArray = [...notesArray, noteobj];
-      console.log(newData.notes);
-      console.log(notesArray);
-      chrome.storage.sync.set({ notes: notesArray }, () => {
-        console.log("Set");
-      });
+      chrome.storage.sync.set({ notes: notesArray });
     });
   };
 
   var srchbar = document.querySelector(".searchin");
 
   srchbar.oninput = () => {
-    console.log(srchbar.value);
-    console.log(notemanager);
     notemanager.stopdisplay();
     var el = document.querySelector(".mynotes");
     var c = 0;
@@ -61,10 +53,12 @@ chrome.storage.sync.get("notes", (data) => {
       if (
         notemanager.notes[i].body
           .toUpperCase()
+          .indexOf(srchbar.value.toUpperCase()) > -1 ||
+        notemanager.notes[i].title
+          .toUpperCase()
           .indexOf(srchbar.value.toUpperCase()) > -1
       ) {
         c++;
-        console.log(notemanager.notes[i].body.indexOf(srchbar.value));
 
         var noteel = notemanager.notes[i].getElement();
         el.appendChild(noteel);
