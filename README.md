@@ -20,6 +20,11 @@
 
 <img src ="screenshot.jpeg" width="700">
 
+ ### Steps to download and use the extension
+  1. Fork this repository and clone it to your system.
+  2. Go to chrome://extensions .
+  3. Turn on the developer (top right corner).
+  4. Three new options will appear. Click on "load upacked" and select the folder where you have cloned the repository.
  ### Scope of Improvement
  * First of all, the storage provided by the chrome api is limited so we will expand our storage using a database.
  * Improvising the popup interface.  
