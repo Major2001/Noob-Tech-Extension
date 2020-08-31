@@ -40,14 +40,15 @@ i {
   box-shadow: yellowgreen 1px 3px 5px;
   border-radius: 10px;
   max-width: 90vw;
-}
+  width: fit-content;
+} 
 .mynotes {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   justify-content: center;
 }
-.srchbar{
+.srchbar {
   margin: 1rem;
 }
 .headernote {
@@ -69,9 +70,8 @@ i {
   max-width: 80vw;
   min-width: 100px;
   font-family: "Caveat", cursive;
-
 }
-.mynote-title:focus{
+.mynote-title:focus {
   outline: none;
 }
 .mynote-body {
@@ -79,7 +79,7 @@ i {
   overflow-wrap: break-word;
   font-family: "Caveat", cursive;
 }
-.mynote-body:focus{
+.mynote-body:focus {
   outline: none;
 }
 .mynote-date {
@@ -87,18 +87,30 @@ i {
   margin-left: 1rem;
   overflow-wrap: break-word;
   font-family: "Caveat", cursive;
-  float: right;
 }
 .mynote-url {
   padding: 0;
   overflow-wrap: break-word;
   font-family: "Caveat", cursive;
   color: blue;
+  overflow: hidden;
 }
+
+a{
+  text-decoration: none;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
 .pinned {
   color: red;
 }
-
+.mynote-footer{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  max-width: 100%;
+}
 .searchin {
   width: 50rem;
   padding: 1rem;
@@ -107,12 +119,13 @@ i {
   border: 1px solid black;
   border-radius: 10px;
 }
-.note-image{
+.note-image {
   object-fit: contain;
   max-width: 80vw;
   display: block;
   margin: 0 auto;
+  overflow: hidden;
 }
-.searchin:focus{
+.searchin:focus {
   outline: none;
 }

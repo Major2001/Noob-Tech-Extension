@@ -10,7 +10,13 @@
     "default_icon": "icon1.png",
     "default_popup": "./Popup Page/popup.html"
   },
-  "permissions": ["storage", "contextMenus", "notifications", "tabs"],
+  "permissions": [
+    "storage",
+    "contextMenus",
+    "notifications",
+    "tabs",
+    "<all_urls>"
+  ],
   "background": {
     "scripts": ["events.js"],
     "persistent": false

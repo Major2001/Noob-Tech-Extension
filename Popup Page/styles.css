@@ -58,6 +58,12 @@ i {
   border-radius: 10px;
   max-width: 90vw;
 }
+.mynote-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  max-width: 100%;
+}
 .mynote::before {
   content: "";
   position: absolute;
@@ -94,7 +100,6 @@ i {
   font-family: "Caveat", cursive;
 }
 .mynote-body {
-  
   padding: 2%;
   overflow-wrap: break-word;
   font-family: "Caveat", cursive;
@@ -111,7 +116,15 @@ i {
   overflow-wrap: break-word;
   font-family: "Caveat", cursive;
   color: blue;
+  overflow: hidden;
 }
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
 .pinned {
   color: red;
 }
@@ -124,7 +137,7 @@ i {
   margin: 1rem;
   max-width: 600px;
 }
-.note-image{
+.note-image {
   max-width: 75vw;
   display: block;
   margin: 0 auto;
