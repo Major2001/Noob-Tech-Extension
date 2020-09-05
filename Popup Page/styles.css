@@ -45,7 +45,7 @@ body {
   /* font-weight: bold; */
 }
 .popup-title:hover{
-  transform: scale(1.05);
+  transform: scaleX(1.05);
 }
 i {
   margin: 0.5rem;

@@ -15,8 +15,6 @@ const getTime = async () => {
   time = res[1].split(".")[0];
 };
 
-const getUrl = async () => {};
-
 chrome.contextMenus.create(menu);
 chrome.storage.sync.set({ notes: [] });
 chrome.contextMenus.onClicked.addListener((data) => {
@@ -93,7 +91,9 @@ chrome.contextMenus.onClicked.addListener((data) => {
 });
 
 chrome.storage.onChanged.addListener(function (changes, storageName) {
-  chrome.storage.sync.get("notes", async (data) => {
+  chrome.storage.sync.get("notes", (data) => {
     chrome.browserAction.setBadgeText({ text: data.notes.length.toString() });
   });
 });
+
+let arr = [];
