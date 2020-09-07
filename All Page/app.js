@@ -2,13 +2,11 @@ import NoteManager from "../NoteManager/notemanager.js";
 
 let date = "",
   time = "";
-const getTime = async () => {
-  const response = await (
-    await fetch("http://worldtimeapi.org/api/timezone/Asia/Kolkata")
-  ).json();
-  const res = response.datetime.split("T");
-  date = res[0];
-  time = res[1].split(".")[0];
+const getTime = () => {
+  const date_time = new Date();
+  let str = date_time.toString().split(" ");
+  date = `${str[1]} ${str[2]} ${str[3]}`
+  time = `${str[4]} ${str[5]}`
 };
 
 chrome.storage.sync.get("notes", (data) => {
@@ -18,8 +16,8 @@ chrome.storage.sync.get("notes", (data) => {
     page: "all-page",
   });
   const newnotebtn = document.querySelector(".newnote");
-  newnotebtn.onclick = async () => {
-    await getTime();
+  newnotebtn.onclick = () => {
+    getTime();
     notemanager.addnote({
       title: " Note added ",
       body: " (...click to add body...) ",

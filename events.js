@@ -6,13 +6,11 @@ const menu = {
 
 let date = "",
   time = "";
-const getTime = async () => {
-  const response = await (
-    await fetch("http://worldtimeapi.org/api/timezone/Asia/Kolkata")
-  ).json();
-  const res = response.datetime.split("T");
-  date = res[0];
-  time = res[1].split(".")[0];
+const getTime = () => {
+  const date_time = new Date();
+  let str = date_time.toString().split(" ");
+  date = `${str[1]} ${str[2]} ${str[3]}`;
+  time = `${str[4]} ${str[5]}`;
 };
 
 chrome.contextMenus.create(menu);
@@ -20,8 +18,8 @@ chrome.storage.sync.set({ notes: [] });
 chrome.contextMenus.onClicked.addListener((data) => {
   if (data.menuItemId == "SanchitPranav" && data.selectionText) {
     const selectedText = data.selectionText;
-    chrome.storage.sync.get("notes", async (data) => {
-      await getTime();
+    chrome.storage.sync.get("notes", (data) => {
+      getTime();
       chrome.tabs.query(
         { active: true, windowId: chrome.windows.WINDOW_ID_CURRENT },
         (tabs) => {
@@ -56,7 +54,7 @@ chrome.contextMenus.onClicked.addListener((data) => {
     if (data.mediaType == "image") {
       var tempdiv = `<img src="${data.srcUrl}" class="note-image">`;
       chrome.storage.sync.get("notes", async (data) => {
-        await getTime();
+        getTime();
         chrome.tabs.query(
           { active: true, windowId: chrome.windows.WINDOW_ID_CURRENT },
           (tabs) => {
@@ -95,5 +93,3 @@ chrome.storage.onChanged.addListener(function (changes, storageName) {
     chrome.browserAction.setBadgeText({ text: data.notes.length.toString() });
   });
 });
-
-let arr = [];
