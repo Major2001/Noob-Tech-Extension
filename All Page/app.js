@@ -1,18 +1,21 @@
 import NoteManager from "../NoteManager/notemanager.js";
+import { getData } from "../storage.js";
 
 let date = "",
   time = "";
 const getTime = () => {
   const date_time = new Date();
   let str = date_time.toString().split(" ");
-  date = `${str[1]} ${str[2]} ${str[3]}`
-  time = `${str[4]} ${str[5]}`
+  date = `${str[1]} ${str[2]} ${str[3]}`;
+  time = `${str[4]} ${str[5]}`;
 };
 
-chrome.storage.sync.get("notes", (data) => {
+const initialize = async () => {
+  const data = await getData();
+
   const notemanager = new NoteManager({
     el: document.querySelector(".mynotes"),
-    notes: data.notes,
+    notes: data,
     page: "all-page",
   });
   const newnotebtn = document.querySelector(".newnote");
@@ -28,17 +31,14 @@ chrome.storage.sync.get("notes", (data) => {
     });
   };
 
-  notemanager.onnotechange = (noteobj) => {
-    chrome.storage.sync.get("notes", (newData) => {
-      let idx = 0;
-      idx = newData.notes.indexOf(
-        newData.notes.find((note) => note.time === noteobj.time)
-      );
-      let notesArray = [...newData.notes];
-      notesArray.splice(idx, 1);
-      notesArray = [...notesArray, noteobj];
-      chrome.storage.sync.set({ notes: notesArray });
-    });
+  notemanager.onnotechange = async (noteobj) => {
+    let newData = await getData();
+    let idx = 0;
+    idx = newData.indexOf(newData.find((note) => note.time === noteobj.time));
+    let notesArray = [...newData];
+    notesArray.splice(idx, 1);
+    notesArray = [...notesArray, noteobj];
+    chrome.storage.sync.set({ notes: notesArray });
   };
 
   var srchbar = document.querySelector(".searchin");
@@ -66,4 +66,8 @@ chrome.storage.sync.get("notes", (data) => {
       el.innerHTML = "<h2>...No notes found...</h2>";
     }
   };
-});
+};
+
+window.onload = () => {
+  initialize();
+};
