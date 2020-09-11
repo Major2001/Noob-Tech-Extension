@@ -39,6 +39,20 @@ body {
   outline: none;
   cursor: pointer;
 }
+.clear {
+  border: 1px solid #CF5C67;
+  color: #fff;
+  font-weight: bold;
+  background: #CF5C67;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  margin-left: 0.3rem;
+  padding: 0.5rem;
+}
+.clear:focus {
+  outline: none;
+  cursor: pointer;
+}
 i {
   margin: 0.5rem;
   cursor: pointer;
@@ -48,7 +62,7 @@ i {
   padding: 1rem;
   margin: 0.6rem;
   background-color: yellow;
-  box-shadow: yellowgreen 1px 3px 5px;
+  box-shadow: yellowgreen 1px 1px 5px;
   border-radius: 10px;
   max-width: 90vw;
   width: fit-content;

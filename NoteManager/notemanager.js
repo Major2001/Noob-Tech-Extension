@@ -73,4 +73,9 @@ export default class NoteManager {
   stopdisplay() {
     this.el.innerHTML = " ";
   }
+  async clearNotes() {
+    this.notes = [];
+    await setData(this.notes);
+    this.renderNotes();
+  }
 }

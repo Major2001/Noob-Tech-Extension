@@ -19,6 +19,7 @@ const initialize = async () => {
     page: "all-page",
   });
   const newnotebtn = document.querySelector(".newnote");
+  const clearbtn = document.querySelector(".clear");
   newnotebtn.onclick = () => {
     getTime();
     notemanager.addnote({
@@ -29,6 +30,9 @@ const initialize = async () => {
       url: "#",
       pinned: false,
     });
+  };
+  clearbtn.onclick = () => {
+    notemanager.clearNotes();
   };
 
   notemanager.onnotechange = async (noteobj) => {
