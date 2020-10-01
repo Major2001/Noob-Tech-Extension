@@ -6,8 +6,6 @@
   
   
   ### Project by- Pranav Sharma & Sanchit Gupta
-  
-  
   ### Tech Stack
   * HTML
   * CSS
