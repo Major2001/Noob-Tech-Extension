@@ -1,104 +1,89 @@
+import { getData, setData } from "./storage.js";
+
+const contexts = ["selection", "image"];
 const menu = {
   id: "SanchitPranav",
   title: "Stick It!",
-  contexts: ["selection", "image"],
+  contexts: contexts,
 };
 
 let date = "",
   time = "";
-const getTime = async () => {
-  const response = await (
-    await fetch("http://worldtimeapi.org/api/timezone/Asia/Kolkata")
-  ).json();
-  const res = response.datetime.split("T");
-  date = res[0];
-  time = res[1].split(".")[0];
+
+const getTime = () => {
+  const date_time = new Date();
+  let str = date_time.toString().split(" ");
+  date = `${str[1]} ${str[2]} ${str[3]}`;
+  time = `${str[4]} ${str[5]}`;
 };
 
-const getUrl = async () => {};
+const url = async () => {
+  const tabPromise = new Promise((resolve, reject) => {
+    chrome.tabs.query(
+      { active: true, windowId: chrome.windows.WINDOW_ID_CURRENT },
+      (tabs) => {
+        resolve(tabs[0].url);
+      }
+    );
+  });
+  return await tabPromise;
+};
 
 chrome.contextMenus.create(menu);
 chrome.storage.sync.set({ notes: [] });
-chrome.contextMenus.onClicked.addListener((data) => {
+chrome.contextMenus.onClicked.addListener(async (data) => {
   if (data.menuItemId == "SanchitPranav" && data.selectionText) {
     const selectedText = data.selectionText;
-    chrome.storage.sync.get("notes", async (data) => {
-      console.log(data.notes);
-      await getTime();
-      chrome.tabs.query(
-        { active: true, windowId: chrome.windows.WINDOW_ID_CURRENT },
-        (tabs) => {
-          chrome.storage.sync.set(
-            {
-              notes: [
-                ...data.notes,
-                {
-                  title: "Note added",
-                  body: selectedText,
-                  time: time,
-                  date: date,
-                  url: tabs[0].url,
-                  pinned: false,
-                },
-              ],
-            },
-            () => {
-              const notif = {
-                type: "basic",
-                iconUrl: "tick.png",
-                title: "Stick It!",
-                message: "You note has been created!",
-              };
-              chrome.notifications.create("createNote", notif);
-            }
-          );
-        }
-      );
-    });
+    let notes = await getData();
+    let tabUrl = await url();
+    getTime();
+    await setData([
+      ...notes,
+      {
+        title: "Note added",
+        body: selectedText,
+        time: time,
+        date: date,
+        url: tabUrl,
+        pinned: false,
+      },
+    ]);
+    const notif = {
+      type: "basic",
+      iconUrl: "./assets/tick.png",
+      title: "Stick It!",
+      message: "Note Created!",
+    };
+    chrome.notifications.create("createNote", notif);
   } else {
-    console.log(data);
     if (data.mediaType == "image") {
       var tempdiv = `<img src="${data.srcUrl}" class="note-image">`;
-      chrome.storage.sync.get("notes", async (data) => {
-        console.log(data.notes);
-        await getTime();
-        chrome.tabs.query(
-          { active: true, windowId: chrome.windows.WINDOW_ID_CURRENT },
-          (tabs) => {
-            chrome.storage.sync.set(
-              {
-                notes: [
-                  ...data.notes,
-                  {
-                    title: "Note added",
-                    body: tempdiv,
-                    time: time,
-                    date: date,
-                    url: tabs[0].url,
-                  },
-                ],
-              },
-              () => {
-                const notif = {
-                  type: "basic",
-                  iconUrl: "tick.png",
-                  title: "Stick It!",
-                  message: "You note has been created!",
-                };
-                chrome.notifications.create("createNote", notif);
-              }
-            );
-          }
-        );
-      });
+      let notes = await getData();
+      getTime();
+      let tabUrl = await url();
+      await setData([
+        ...notes,
+        {
+          title: "Note added",
+          body: tempdiv,
+          time: time,
+          date: date,
+          url: tabUrl,
+          pinned: false,
+        },
+      ]);
+      const notif = {
+        type: "basic",
+        iconUrl: "./assets/tick.png",
+        title: "Stick It!",
+        message: "Note Created!",
+      };
+      chrome.notifications.create("createNote", notif);
     }
   }
 });
 
-chrome.storage.onChanged.addListener(function (changes, storageName) {
-  chrome.storage.sync.get("notes", async (data) => {
-    console.log(data);
-    chrome.browserAction.setBadgeText({ text: data.notes.length.toString() });
-  });
-  console.log("change");
+chrome.storage.onChanged.addListener(async function (changes, storageName) {
+  let notes = await getData();
+  chrome.browserAction.setBadgeText({ text: notes.length.toString() });
 });

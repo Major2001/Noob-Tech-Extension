@@ -18,8 +18,7 @@ export default class Note {
       .replace("{{body}}", this.body)
       .replace("{{date}}", this.date)
       .replace("{{time}}", this.time)
-      .replace("{{url}}", this.url)
-      .replace("{{url-1}}", this.url);
+      .replace("{{url}}", this.url);
 
     this.el = tempdiv.children[0];
 
@@ -61,11 +60,13 @@ export default class Note {
           <div class="mynote-body" contenteditable>
               {{body}}
           </div>
-          <div class="mynote-date" >
-              {{date}}  {{time}}
-          </div>
-          <div class="mynote-url" ><a href="{{url}}" target="_blank" class="urltag">
-              {{url-1}}</a>
+          <div class="mynote-footer">
+            <div class="mynote-url" ><a href="{{url}}" target="_blank" class="urltag">
+              Link to Page</a>
+            </div>
+            <div class="mynote-date" >
+            {{date}}  {{time}}
+            </div>
           </div>
       </div>
       `;
@@ -89,11 +90,13 @@ export default class Note {
             <div class="mynote-body">
                 {{body}}
             </div>
-            <div class="mynote-date" >
-                {{date}}  {{time}}
-            </div>
+            <div class="mynote-footer">
             <div class="mynote-url" ><a href="{{url}}" target="_blank" class="urltag">
-                {{url-1}}</a>
+                Link to Page</a>
+            </div>
+              <div class="mynote-date" >
+                {{date}}  {{time}}
+              </div>
             </div>
         </div>
       </div>

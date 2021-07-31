@@ -5,14 +5,25 @@ body {
   margin: 0;
   padding: 0;
   font-size: 1.2rem;
+  background: url("../assets/background.jpg") no-repeat center center fixed;
+  background-size: cover;
 }
 
 #notebox {
   padding: 1rem;
   display: flex;
-  height: 100vh;
   flex-direction: column;
   align-items: center;
+}
+
+.note-header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
 }
 
 .newnote {
@@ -28,6 +39,20 @@ body {
   outline: none;
   cursor: pointer;
 }
+.clear {
+  border: 1px solid #CF5C67;
+  color: #fff;
+  font-weight: bold;
+  background: #CF5C67;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  margin-left: 0.3rem;
+  padding: 0.5rem;
+}
+.clear:focus {
+  outline: none;
+  cursor: pointer;
+}
 i {
   margin: 0.5rem;
   cursor: pointer;
@@ -37,9 +62,10 @@ i {
   padding: 1rem;
   margin: 0.6rem;
   background-color: yellow;
-  box-shadow: yellowgreen 1px 3px 5px;
+  box-shadow: yellowgreen 1px 1px 5px;
   border-radius: 10px;
   max-width: 90vw;
+  width: fit-content;
 }
 .mynotes {
   display: flex;
@@ -47,7 +73,7 @@ i {
   flex-wrap: wrap;
   justify-content: center;
 }
-.srchbar{
+.srchbar {
   margin: 1rem;
 }
 .headernote {
@@ -69,9 +95,8 @@ i {
   max-width: 80vw;
   min-width: 100px;
   font-family: "Caveat", cursive;
-
 }
-.mynote-title:focus{
+.mynote-title:focus {
   outline: none;
 }
 .mynote-body {
@@ -79,7 +104,7 @@ i {
   overflow-wrap: break-word;
   font-family: "Caveat", cursive;
 }
-.mynote-body:focus{
+.mynote-body:focus {
   outline: none;
 }
 .mynote-date {
@@ -87,18 +112,30 @@ i {
   margin-left: 1rem;
   overflow-wrap: break-word;
   font-family: "Caveat", cursive;
-  float: right;
 }
 .mynote-url {
   padding: 0;
   overflow-wrap: break-word;
   font-family: "Caveat", cursive;
   color: blue;
+  overflow: hidden;
 }
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
 .pinned {
   color: red;
 }
-
+.mynote-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  max-width: 100%;
+}
 .searchin {
   width: 50rem;
   padding: 1rem;
@@ -107,12 +144,14 @@ i {
   border: 1px solid black;
   border-radius: 10px;
 }
-.note-image{
+
+.note-image {
   object-fit: contain;
   max-width: 80vw;
   display: block;
   margin: 0 auto;
+  overflow: hidden;
 }
-.searchin:focus{
+.searchin:focus {
   outline: none;
 }

@@ -1,27 +1,27 @@
 import NoteManager from "../NoteManager/notemanager.js";
-// import Note from "./Note";
+import { getData } from "../storage.js";
 
 let date = "",
   time = "";
-const getTime = async () => {
-  const response = await (
-    await fetch("http://worldtimeapi.org/api/timezone/Asia/Kolkata")
-  ).json();
-  const res = response.datetime.split("T");
-  date = res[0];
-  time = res[1].split(".")[0];
+const getTime = () => {
+  const date_time = new Date();
+  let str = date_time.toString().split(" ");
+  date = `${str[1]} ${str[2]} ${str[3]}`;
+  time = `${str[4]} ${str[5]}`;
 };
 
-chrome.storage.sync.get("notes", (data) => {
-  console.log(data.notes);
+const initialize = async () => {
+  const data = await getData();
+
   const notemanager = new NoteManager({
     el: document.querySelector(".mynotes"),
-    notes: data.notes,
+    notes: data,
     page: "all-page",
   });
   const newnotebtn = document.querySelector(".newnote");
-  newnotebtn.onclick = async () => {
-    await getTime();
+  const clearbtn = document.querySelector(".clear");
+  newnotebtn.onclick = () => {
+    getTime();
     notemanager.addnote({
       title: " Note added ",
       body: " (...click to add body...) ",
@@ -31,29 +31,23 @@ chrome.storage.sync.get("notes", (data) => {
       pinned: false,
     });
   };
+  clearbtn.onclick = () => {
+    notemanager.clearNotes();
+  };
 
-  notemanager.onnotechange = (noteobj) => {
-    chrome.storage.sync.get("notes", (newData) => {
-      let idx = 0;
-      idx = newData.notes.indexOf(
-        newData.notes.find((note) => note.time === noteobj.time)
-      );
-      let notesArray = [...newData.notes];
-      notesArray.splice(idx, 1);
-      notesArray = [...notesArray, noteobj];
-      console.log(newData.notes);
-      console.log(notesArray);
-      chrome.storage.sync.set({ notes: notesArray }, () => {
-        console.log("Set");
-      });
-    });
+  notemanager.onnotechange = async (noteobj) => {
+    let newData = await getData();
+    let idx = 0;
+    idx = newData.indexOf(newData.find((note) => note.time === noteobj.time));
+    let notesArray = [...newData];
+    notesArray.splice(idx, 1);
+    notesArray = [...notesArray, noteobj];
+    chrome.storage.sync.set({ notes: notesArray });
   };
 
   var srchbar = document.querySelector(".searchin");
 
   srchbar.oninput = () => {
-    console.log(srchbar.value);
-    console.log(notemanager);
     notemanager.stopdisplay();
     var el = document.querySelector(".mynotes");
     var c = 0;
@@ -61,10 +55,12 @@ chrome.storage.sync.get("notes", (data) => {
       if (
         notemanager.notes[i].body
           .toUpperCase()
+          .indexOf(srchbar.value.toUpperCase()) > -1 ||
+        notemanager.notes[i].title
+          .toUpperCase()
           .indexOf(srchbar.value.toUpperCase()) > -1
       ) {
         c++;
-        console.log(notemanager.notes[i].body.indexOf(srchbar.value));
 
         var noteel = notemanager.notes[i].getElement();
         el.appendChild(noteel);
@@ -74,4 +70,8 @@ chrome.storage.sync.get("notes", (data) => {
       el.innerHTML = "<h2>...No notes found...</h2>";
     }
   };
-});
+};
+
+window.onload = () => {
+  initialize();
+};
