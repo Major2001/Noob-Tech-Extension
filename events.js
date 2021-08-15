@@ -1,4 +1,4 @@
-import { getData, setData } from "./storage.js";
+import { getDataFirebase, setDataFirebase } from "./firebase.js";
 
 const contexts = ["selection", "image"];
 const menu = {
@@ -34,10 +34,11 @@ chrome.storage.sync.set({ notes: [] });
 chrome.contextMenus.onClicked.addListener(async (data) => {
   if (data.menuItemId == "SanchitPranav" && data.selectionText) {
     const selectedText = data.selectionText;
-    let notes = await getData();
+    let notes = (await getDataFirebase()) || [];
+    console.log(notes);
     let tabUrl = await url();
     getTime();
-    await setData([
+    await setDataFirebase([
       ...notes,
       {
         title: "Note added",
@@ -58,10 +59,10 @@ chrome.contextMenus.onClicked.addListener(async (data) => {
   } else {
     if (data.mediaType == "image") {
       var tempdiv = `<img src="${data.srcUrl}" class="note-image">`;
-      let notes = await getData();
+      let notes = await getDataFirebase();
       getTime();
       let tabUrl = await url();
-      await setData([
+      await setDataFirebase([
         ...notes,
         {
           title: "Note added",
@@ -84,6 +85,6 @@ chrome.contextMenus.onClicked.addListener(async (data) => {
 });
 
 chrome.storage.onChanged.addListener(async function (changes, storageName) {
-  let notes = await getData();
-  chrome.browserAction.setBadgeText({ text: notes.length.toString() });
+  let notes = await getDataFirebase();
+  
 });
