@@ -1,23 +1,21 @@
 export const getData = async () => {
-  const retriveDataPromise = new Promise((resolve, reject) => {
-    chrome.storage.sync.get("notes", (data) => {
-      resolve(data.notes);
+  const dataPromise = new Promise((resolve, reject) => {
+    chrome.runtime.sendMessage({ command: 'fetch' }, (response) => {
+      resolve(response);
     });
   });
-  const data = await retriveDataPromise;
+  const data = await dataPromise;
+  if (!data) {
+    return [];
+  }
   return data;
 };
 
-export const setData = async (notesArray) => {
-  const setDataPromise = new Promise((resolve, reject) => {
-    chrome.storage.sync.set(
-      {
-        notes: notesArray,
-      },
-      () => {
-        resolve();
-      }
-    );
+export const setData = async (newNote) => {
+  const dataPromise = new Promise((resolve, reject) => {
+    chrome.runtime.sendMessage({ command: 'set', data: newNote }, () => {
+      resolve();
+    });
   });
-  await setDataPromise;
+  await dataPromise;
 };
