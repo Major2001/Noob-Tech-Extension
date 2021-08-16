@@ -1,5 +1,5 @@
 import NoteManager from "../NoteManager/notemanager.js";
-import { getData } from "../storage.js";
+import { getData,setData } from '../storage.js';
 
 let date = "",
   time = "";
@@ -42,7 +42,7 @@ const initialize = async () => {
     let notesArray = [...newData];
     notesArray.splice(idx, 1);
     notesArray = [...notesArray, noteobj];
-    chrome.storage.sync.set({ notes: notesArray });
+    await setData(noteobj)
   };
 
   var srchbar = document.querySelector(".searchin");

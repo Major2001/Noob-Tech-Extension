@@ -1,5 +1,5 @@
-import Note from "../NoteManager/Note.js";
-import { setData } from "../storage.js";
+import Note from '../NoteManager/Note.js';
+import { setData } from '../storage.js';
 export default class NoteManager {
   constructor({ el, notes, page }) {
     this.el = el;
@@ -15,12 +15,12 @@ export default class NoteManager {
       return -1;
     }
   }
-  renderNotes(event = "normal-render") {
-    this.el.innerHTML = "";
-    if (event === "normal-render") {
+  renderNotes(event = 'normal-render') {
+    this.el.innerHTML = '';
+    if (event === 'normal-render') {
       this.notes.sort(this.compare);
     }
-    if (this.page == "all-page") {
+    if (this.page == 'all-page') {
       this.notes.forEach((note) => this.rendernote(note.getElement()));
     } else {
       let pinnedNotes = [];
@@ -38,21 +38,21 @@ export default class NoteManager {
 
   async removenote(note) {
     this.notes.splice(this.notes.indexOf(note), 1);
-    await setData(this.notes);
+    //await setData(this.notes);
     const notif = {
-      type: "basic",
-      iconUrl: "../assets/tick.png",
-      title: "Stick It!",
-      message: "Note Deleted!",
+      type: 'basic',
+      iconUrl: '../assets/tick.png',
+      title: 'Stick It!',
+      message: 'Note Deleted!',
     };
-    chrome.notifications.create("deleteNote", notif);
+    chrome.notifications.create('deleteNote', notif);
     this.renderNotes();
   }
 
   async handlePin(note) {
     const requiredNote = this.notes.find((eachNote) => eachNote === note);
     requiredNote.pinned = !requiredNote.pinned;
-    await setData(this.notes);
+    //await setData(requiredNote);
     this.renderNotes();
   }
 
@@ -60,22 +60,22 @@ export default class NoteManager {
     const noteobj = new Note(note, this, this.page);
     this.notes.push(noteobj);
 
-    await setData(this.notes);
+    await setData(noteobj);
     const notif = {
-      type: "basic",
-      iconUrl: "../assets/tick.png",
-      title: "Stick It!",
-      message: "Note Created!",
+      type: 'basic',
+      iconUrl: '../assets/tick.png',
+      title: 'Stick It!',
+      message: 'Note Created!',
     };
-    chrome.notifications.create("createNote", notif);
+    chrome.notifications.create('createNote', notif);
     this.renderNotes();
   }
   stopdisplay() {
-    this.el.innerHTML = " ";
+    this.el.innerHTML = ' ';
   }
   async clearNotes() {
     this.notes = [];
-    await setData(this.notes);
+    //await setData(this.notes);
     this.renderNotes();
   }
 }

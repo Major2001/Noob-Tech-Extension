@@ -1,16 +1,19 @@
 export const getData = async () => {
   const dataPromise = new Promise((resolve, reject) => {
-    chrome.runtime.sendMessage({ command: "fetch" }, (response) => {
+    chrome.runtime.sendMessage({ command: 'fetch' }, (response) => {
       resolve(response);
     });
   });
   const data = await dataPromise;
-  return data || [];
+  if (!data) {
+    return [];
+  }
+  return data;
 };
 
-export const setData = async (notesArray) => {
+export const setData = async (newNote) => {
   const dataPromise = new Promise((resolve, reject) => {
-    chrome.runtime.sendMessage({ command: "set", data: notesArray }, () => {
+    chrome.runtime.sendMessage({ command: 'set', data: newNote }, () => {
       resolve();
     });
   });
