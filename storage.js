@@ -19,3 +19,12 @@ export const setData = async (newNote) => {
   });
   await dataPromise;
 };
+
+export const deleteData = async (id) => {
+  const dataPromise = new Promise((resolve, reject) => {
+    chrome.runtime.sendMessage({ command: 'delete',id }, () => {
+      resolve();
+    });
+  });
+  await dataPromise;
+};

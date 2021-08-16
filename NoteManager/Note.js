@@ -1,5 +1,9 @@
 export default class Note {
-  constructor({ title, body, date, time, url, pinned }, notemanager, page) {
+  constructor(
+    { title, body, date, time, url, pinned, id = null },
+    notemanager,
+    page
+  ) {
     this.title = title;
     this.body = body;
     this.date = date;
@@ -9,39 +13,40 @@ export default class Note {
     this.el = null;
     this.page = page;
     this.notemanager = notemanager;
+    this.id = id;
   }
   getElement() {
     const tpl = this.gettemplate();
-    const tempdiv = document.createElement("div");
+    const tempdiv = document.createElement('div');
     tempdiv.innerHTML = tpl
       .replace(/{{title}}/g, this.title)
-      .replace("{{body}}", this.body)
-      .replace("{{date}}", this.date)
-      .replace("{{time}}", this.time)
-      .replace("{{url}}", this.url);
+      .replace('{{body}}', this.body)
+      .replace('{{date}}', this.date)
+      .replace('{{time}}', this.time)
+      .replace('{{url}}', this.url);
 
     this.el = tempdiv.children[0];
 
-    if (this.page == "all-page") {
+    if (this.page == 'all-page') {
       this.eventlisteners();
       if (this.pinned) {
-        this.el.querySelector(".mynote-pin").classList.add("pinned");
+        this.el.querySelector('.mynote-pin').classList.add('pinned');
       } else {
-        this.el.querySelector(".mynote-pin").classList.remove("pinned");
+        this.el.querySelector('.mynote-pin').classList.remove('pinned');
       }
     } else {
       this.eventlistenersPopup();
       if (this.pinned) {
-        this.el.querySelector(".mynote-pin").classList.add("pinned");
+        this.el.querySelector('.mynote-pin').classList.add('pinned');
       } else {
-        this.el.querySelector(".mynote-pin").classList.remove("pinned");
+        this.el.querySelector('.mynote-pin').classList.remove('pinned');
       }
     }
     return this.el;
   }
   gettemplate() {
     switch (this.page) {
-      case "all-page":
+      case 'all-page':
         return `
       <div class="mynote">
           <div class="headernote">
@@ -70,7 +75,7 @@ export default class Note {
           </div>
       </div>
       `;
-      case "popup":
+      case 'popup':
         return `
       <div class="pinned-container">
         <div class="popup-title">
@@ -105,25 +110,26 @@ export default class Note {
   }
 
   eventlisteners() {
-    const closebtn = this.el.querySelector(".mynote-close");
-    const pinBtn = this.el.querySelector(".mynote-pin");
+    const closebtn = this.el.querySelector('.mynote-close');
+    const pinBtn = this.el.querySelector('.mynote-pin');
     closebtn.onclick = () => {
+      console.log(this);
       this.notemanager.removenote(this);
     };
     pinBtn.onclick = () => {
       this.notemanager.handlePin(this);
     };
-    const title = this.el.querySelector(".mynote-title");
+    const title = this.el.querySelector('.mynote-title');
 
     title.oninput = (ev) => {
       this.title = ev.target.innerHTML;
       this.notemanager.onnotechange(this);
     };
-    const body = this.el.querySelector(".mynote-body");
+    const body = this.el.querySelector('.mynote-body');
     body.onclick = () => {
-      if (this.body === " (...click to add body...) ") {
-        this.body = " ";
-        this.notemanager.renderNotes("add-note");
+      if (this.body === ' (...click to add body...) ') {
+        this.body = ' ';
+        this.notemanager.renderNotes('add-note');
         this.notemanager.onnotechange(this);
       }
     };
@@ -134,10 +140,10 @@ export default class Note {
   }
   eventlistenersPopup() {
     const mainParent = this.el;
-    mainParent.querySelector(".popup-title").onclick = () => {
-      mainParent.children[1].classList.toggle("hidden");
+    mainParent.querySelector('.popup-title').onclick = () => {
+      mainParent.children[1].classList.toggle('hidden');
     };
-    mainParent.querySelector(".mynote-pin").onclick = () => {
+    mainParent.querySelector('.mynote-pin').onclick = () => {
       this.notemanager.handlePin(this);
     };
   }
