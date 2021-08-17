@@ -13,5 +13,8 @@ window.onload = () => {
     const userEmail = e.target.user_email.value;
     const userId = makeId(userEmail);
     localStorage.setItem('user', JSON.stringify({ userName, userId }));
+    chrome.tabs.getCurrent(function (tab) {
+      chrome.tabs.remove(tab.id);
+    });
   };
 };

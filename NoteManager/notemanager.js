@@ -1,5 +1,5 @@
 import Note from '../NoteManager/Note.js';
-import { setData } from '../storage.js';
+import { setData, deleteData } from '../storage.js';
 export default class NoteManager {
   constructor({ el, notes, page }) {
     this.el = el;
@@ -20,7 +20,7 @@ export default class NoteManager {
     if (event === 'normal-render') {
       this.notes.sort(this.compare);
     }
-    if (this.page == 'all-page') {
+    if (this.page === 'all-page') {
       this.notes.forEach((note) => this.rendernote(note.getElement()));
     } else {
       let pinnedNotes = [];
@@ -38,7 +38,7 @@ export default class NoteManager {
 
   async removenote(note) {
     this.notes.splice(this.notes.indexOf(note), 1);
-    //await setData(this.notes);
+    await deleteData(note.id);
     const notif = {
       type: 'basic',
       iconUrl: '../assets/tick.png',
@@ -58,9 +58,8 @@ export default class NoteManager {
 
   async addnote(note) {
     const noteobj = new Note(note, this, this.page);
-    this.notes.push(noteobj);
-
     await setData(noteobj);
+    this.notes.push(noteobj);
     const notif = {
       type: 'basic',
       iconUrl: '../assets/tick.png',

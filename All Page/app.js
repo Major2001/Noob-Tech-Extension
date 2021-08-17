@@ -12,7 +12,6 @@ const getTime = () => {
 
 const initialize = async () => {
   const data = await getData();
-
   const notemanager = new NoteManager({
     el: document.querySelector(".mynotes"),
     notes: data,
