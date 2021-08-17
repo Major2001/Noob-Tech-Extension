@@ -1,0 +1,17 @@
+.login{
+    display: block;
+    position: absolute;
+    left: 35%;
+    top:35%;
+    text-align: center;
+    
+}
+.content{
+  font-family: "Caveat", cursive;
+}
+.btn{
+    margin: auto;
+  width: 70%;
+  padding: 10px;
+  
+}
