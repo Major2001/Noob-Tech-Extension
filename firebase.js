@@ -33,6 +33,27 @@ export const deleteDataFirebase = async (id) => {
   await firestore.collection('notes').doc(id).delete();
 };
 
+var provider = new firebase.auth.GoogleAuthProvider();
+provider.setCustomParameters({
+  prompt: 'select_account',
+});
+
+async function glogin() {
+  console.log('login');
+  console.log('sign in hoga');
+  const result = await firebase.auth().signInWithPopup(provider);
+  console.log(result);
+}
+
+function logout() {
+  firebase
+    .auth()
+    .signOut()
+    .then((res) => {
+      console.log('logged out');
+    });
+}
+
 chrome.runtime.onMessage.addListener((msg, sender, resp) => {
   if (msg.command === 'fetch') {
     console.log('data le raha');
@@ -41,35 +62,14 @@ chrome.runtime.onMessage.addListener((msg, sender, resp) => {
     console.log('data daal raha');
     setDataFirebase(msg.data).then(() => resp());
   } else if (msg.command === 'delete') {
-    console.log("Delete hora hai");
+    console.log('Delete hora hai');
     deleteDataFirebase(msg.id).then(() => resp());
-  }
-  else if(msg.command=='signin'){
-    console.log("firebase tk pahuncha")
-    glogin().then(()=>resp());
+  } else if (msg.command == 'signin') {
+    console.log('firebase tk pahuncha');
+    glogin().then(() => resp());
   }
   return true;
 });
-
-
-var provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({
-  prompt: 'select_account'
-});
-
-async function glogin(){
-  console.log("login")
-  console.log('sign in hoga')
-    const result=await firebase.auth().signInWithPopup(provider);
-    console.log(result)
-}
-
-function logout() {
-  firebase.auth().signOut().then((res)=>{
-    console.log("logged out");
-  })
-}
-
 
 // firebase.auth().onAuthStateChanged((user) => {
 //   if (user) {
