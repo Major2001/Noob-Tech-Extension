@@ -28,3 +28,18 @@ export const deleteData = async (id) => {
   });
   await dataPromise;
 };
+
+export const signin = async () => {
+  console.log("storage tk pahuncha")
+    // chrome.runtime.sendMessage({ command: 'signin' }, (response) => {
+    //   console.log(response);
+    // });
+    const dataPromise = new Promise((resolve, reject) => {
+      chrome.runtime.sendMessage({ command: 'signin' }, () => {
+        console.log("response de");
+        resolve();
+       });
+    });
+    await dataPromise;
+    console.log("storage paar pahuncha")
+  };

@@ -44,5 +44,43 @@ chrome.runtime.onMessage.addListener((msg, sender, resp) => {
     console.log("Delete hora hai");
     deleteDataFirebase(msg.id).then(() => resp());
   }
+  else if(msg.command=='signin'){
+    console.log("firebase tk pahuncha")
+    glogin().then(()=>resp());
+  }
   return true;
 });
+
+
+var provider = new firebase.auth.GoogleAuthProvider();
+provider.setCustomParameters({
+  prompt: 'select_account'
+});
+
+async function glogin(){
+  console.log("login")
+  console.log('sign in hoga')
+    const result=await firebase.auth().signInWithPopup(provider);
+    console.log(result)
+}
+
+function logout() {
+  firebase.auth().signOut().then((res)=>{
+    console.log("logged out");
+  })
+}
+
+
+// firebase.auth().onAuthStateChanged((user) => {
+//   if (user) {
+//     console.log("signed in")
+//     document.getElementById('login_button').style.display="none";
+//     document.getElementById('logout_button').style.display="block";
+
+//     var uid = user.uid;
+//   } else {
+//     document.getElementById('login_button').style.display="block";
+//     document.getElementById('logout_button').style.display="none";
+//     console.log("signed out")
+//   }
+// });
