@@ -49,13 +49,8 @@ const getCurrentUser = ()=>{
   return firebase.auth().currentUser;
 }
 
-function logout() {
-  firebase
-    .auth()
-    .signOut()
-    .then((res) => {
-      console.log('logged out');
-    });
+async function logout() {
+  const resp=await firebase.auth().signOut();
 }
 
 chrome.runtime.onMessage.addListener((msg, sender, resp) => {
@@ -74,6 +69,10 @@ chrome.runtime.onMessage.addListener((msg, sender, resp) => {
   } else if (msg.command === 'getCurrentUser'){
     const user = getCurrentUser();
     resp(user);
+  } 
+  else if (msg.command == 'logout'){
+    console.log('logout firebase tk pahuncha');
+    logout().then(()=>resp());
   } 
   return true;
 });

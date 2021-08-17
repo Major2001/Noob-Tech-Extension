@@ -54,3 +54,14 @@ export const getCurrentUser = async () => {
   console.log(user);
   return user;
 };
+export const logout = async () => {
+  console.log("logout ho")
+  const dataPromise = new Promise((resolve, reject) => {
+    chrome.runtime.sendMessage({ command: 'logout' }, () => {
+      console.log("log resp de")
+      resolve();
+    });
+  });
+  await dataPromise;
+  console.log("logout storage paar")
+};
