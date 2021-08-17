@@ -17,15 +17,20 @@ export const getDataFirebase = async () => {
   console.log('hello');
   let data = [];
   querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
     data.push(doc.data());
   });
   return data;
 };
 
 export const setDataFirebase = async (note) => {
-  const dc = firestore.collection('notes');
-  await dc.add(note);
+  const newDoc = firestore.collection('notes').doc();
+  await newDoc.set({ ...note, id: newDoc.id });
+  note.id = newDoc.id;
+};
+
+export const deleteDataFirebase = async (id) => {
+  console.log(id);
+  await firestore.collection('notes').doc(id).delete();
 };
 
 chrome.runtime.onMessage.addListener((msg, sender, resp) => {
@@ -35,6 +40,9 @@ chrome.runtime.onMessage.addListener((msg, sender, resp) => {
   } else if (msg.command === 'set') {
     console.log('data daal raha');
     setDataFirebase(msg.data).then(() => resp());
+  } else if (msg.command === 'delete') {
+    console.log("Delete hora hai");
+    deleteDataFirebase(msg.id).then(() => resp());
   }
   return true;
 });
