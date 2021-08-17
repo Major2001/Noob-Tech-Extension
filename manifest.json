@@ -17,11 +17,12 @@
     "notifications",
     "tabs",
     "<all_urls>",
-    "nativeMessaging"
+    "nativeMessaging",
+    "identity"
   ],
   "background": {
     "page": "background.html",
     "persistent": false
   },
-  "content_security_policy": "script-src 'self' https://*.gstatic.com; object-src 'self'"
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://apis.google.com https://*.gstatic.com; object-src 'self'"
 }
