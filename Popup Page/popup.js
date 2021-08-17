@@ -1,5 +1,5 @@
 import NoteManager from '../NoteManager/notemanager.js';
-import { getData } from '../storage.js';
+import { getData, getCurrentUser } from '../storage.js';
 getData().then((data) => {
   console.log(data);
   const notemanager = new NoteManager({
@@ -9,11 +9,11 @@ getData().then((data) => {
   });
   notemanager.renderNotes();
 });
-window.onload = () => {
-  const userString = localStorage.getItem('user');
-  if (!userString) {
-    chrome.tabs.create({ url: './Install Page/index.html' });
-  }
-  const user = JSON.parse(userString);
-  document.querySelector('.name').innerText = `Hello ${user.userName}`;
+window.onload = async () => {
+  // if (!userString) {
+  //   chrome.tabs.create({ url: './Install Page/index.html' });
+  // }
+  const user = await getCurrentUser();
+  console.log(user);
+  document.querySelector('.name').innerText = `Hello`;
 };

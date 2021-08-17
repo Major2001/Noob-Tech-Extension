@@ -22,7 +22,7 @@ export const setData = async (newNote) => {
 
 export const deleteData = async (id) => {
   const dataPromise = new Promise((resolve, reject) => {
-    chrome.runtime.sendMessage({ command: 'delete',id }, () => {
+    chrome.runtime.sendMessage({ command: 'delete', id }, () => {
       resolve();
     });
   });
@@ -30,16 +30,27 @@ export const deleteData = async (id) => {
 };
 
 export const signin = async () => {
-  console.log("storage tk pahuncha")
-    // chrome.runtime.sendMessage({ command: 'signin' }, (response) => {
-    //   console.log(response);
-    // });
-    const dataPromise = new Promise((resolve, reject) => {
-      chrome.runtime.sendMessage({ command: 'signin' }, () => {
-        console.log("response de");
-        resolve();
-       });
+  console.log('storage tk pahuncha');
+  // chrome.runtime.sendMessage({ command: 'signin' }, (response) => {
+  //   console.log(response);
+  // });
+  const dataPromise = new Promise((resolve, reject) => {
+    chrome.runtime.sendMessage({ command: 'signin' }, () => {
+      console.log('response de');
+      resolve();
     });
-    await dataPromise;
-    console.log("storage paar pahuncha")
-  };
+  });
+  await dataPromise;
+  console.log('storage paar pahuncha');
+};
+
+export const getCurrentUser = async () => {
+  const userPromise = new Promise((resolve, reject) => {
+    chrome.runtime.sendMessage({ command: 'getCurrentUser' }, (response) => {
+      resolve(response);
+    });
+  });
+  const user = await userPromise
+  console.log(user);
+  return user;
+};

@@ -7,10 +7,16 @@ var firebaseConfig = {
   appId: '1:994124947691:web:277ef9322e1339b45a5eae',
   measurementId: 'G-7SZRMD0C03',
 };
-
+// firestore initialization
 firebase.initializeApp(firebaseConfig);
 const firestore = firebase.firestore();
 const dc = firestore.collection('notes');
+
+// auth initilization
+const provider = new firebase.auth.GoogleAuthProvider();
+provider.setCustomParameters({
+  prompt: 'select_account',
+});
 
 export const getDataFirebase = async () => {
   const querySnapshot = await dc.get();
@@ -33,16 +39,14 @@ export const deleteDataFirebase = async (id) => {
   await firestore.collection('notes').doc(id).delete();
 };
 
-var provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({
-  prompt: 'select_account',
-});
 
-async function glogin() {
-  console.log('login');
-  console.log('sign in hoga');
+
+const glogin = async () => {
   const result = await firebase.auth().signInWithPopup(provider);
   console.log(result);
+}
+const getCurrentUser = ()=>{
+  return firebase.auth().currentUser;
 }
 
 function logout() {
@@ -67,7 +71,10 @@ chrome.runtime.onMessage.addListener((msg, sender, resp) => {
   } else if (msg.command == 'signin') {
     console.log('firebase tk pahuncha');
     glogin().then(() => resp());
-  }
+  } else if (msg.command === 'getCurrentUser'){
+    const user = getCurrentUser();
+    resp(user);
+  } 
   return true;
 });
 
