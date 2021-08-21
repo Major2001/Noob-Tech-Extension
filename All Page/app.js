@@ -1,5 +1,5 @@
 import NoteManager from '../NoteManager/notemanager.js';
-import { getData, setData, getCurrentUser } from '../storage.js';
+import { getData, setData, getCurrentUser,updateData } from '../storage.js';
 
 const getDT = () => {
   const date_time = new Date();

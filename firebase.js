@@ -23,6 +23,11 @@ export const setDataFirebase = async (note) => {
   await newDoc.set({ ...note, id: newDoc.id });
   note.id = newDoc.id;
 };
+export const updateDataFirebase = async (note) => {
+  const newDoc = notesRef.doc(note.id);
+  await newDoc.set({ ...note });
+  //note.id = newDoc.id;
+};
 
 export const deleteDataFirebase = async (id) => {
   await notesRef.doc(id).delete();
@@ -62,6 +67,8 @@ chrome.runtime.onMessage.addListener((msg, sender, resp) => {
     getDataFirebase().then((data) => resp(data));
   } else if (msg.command === 'set') {
     setDataFirebase(msg.data).then(() => resp());
+  }else if (msg.command === 'update') {
+    updateDataFirebase(msg.data).then(() => resp());
   } else if (msg.command === 'delete') {
     console.log('Delete hora hai');
     deleteDataFirebase(msg.id).then(() => resp());

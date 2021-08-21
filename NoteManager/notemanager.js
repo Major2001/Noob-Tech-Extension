@@ -1,11 +1,11 @@
 import Note from '../NoteManager/Note.js';
-import { setData, deleteData,clearNotes } from '../storage.js';
+import { setData, deleteData,clearNotes,updateData} from '../storage.js';
 export default class NoteManager {
   constructor({ el, notes, page }) {
     this.el = el;
     this.page = page;
     this.notes = notes.map((note) => new Note(note, this, page));
-    this.onnotechange = (noteobj) => {};
+    //this.onnotechange = (noteobj) => {};
     this.renderNotes();
   }
   compare(a, b) {
@@ -78,4 +78,16 @@ export default class NoteManager {
     await clearNotes();
     this.renderNotes();
   }
+  async onnotechange(note) {
+    await updateData({
+      id: note.id,
+      title: note.title,
+      body: note.body,
+      time: note.time,
+      date: note.date,
+      url: note.url,
+      pinned: note.pinned,
+      uid: note.uid,
+    });
+   }
 }
