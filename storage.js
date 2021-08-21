@@ -30,18 +30,15 @@ export const deleteData = async (id) => {
 };
 
 export const signin = async () => {
-  console.log('storage tk pahuncha');
   // chrome.runtime.sendMessage({ command: 'signin' }, (response) => {
   //   console.log(response);
   // });
   const dataPromise = new Promise((resolve, reject) => {
     chrome.runtime.sendMessage({ command: 'signin' }, () => {
-      console.log('response de');
       resolve();
     });
   });
   await dataPromise;
-  console.log('storage paar pahuncha');
 };
 
 export const getCurrentUser = async () => {
@@ -50,18 +47,15 @@ export const getCurrentUser = async () => {
       resolve(response);
     });
   });
-  const user = await userPromise
-  console.log(user);
+  const user = await userPromise;
+
   return user;
 };
 export const logout = async () => {
-  console.log("logout ho")
   const dataPromise = new Promise((resolve, reject) => {
     chrome.runtime.sendMessage({ command: 'logout' }, () => {
-      console.log("log resp de")
       resolve();
     });
   });
   await dataPromise;
-  console.log("logout storage paar")
 };

@@ -17,6 +17,7 @@ export default class NoteManager {
   }
   renderNotes(event = 'normal-render') {
     this.el.innerHTML = '';
+    console.log(this.notes);
     if (event === 'normal-render') {
       this.notes.sort(this.compare);
     }

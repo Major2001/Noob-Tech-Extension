@@ -1,32 +1,31 @@
-import NoteManager from "../NoteManager/notemanager.js";
-import { getData,setData } from '../storage.js';
+import NoteManager from '../NoteManager/notemanager.js';
+import { getData, setData, getCurrentUser } from '../storage.js';
 
-let date = "",
-  time = "";
-const getTime = () => {
+const getDT = () => {
   const date_time = new Date();
-  let str = date_time.toString().split(" ");
-  date = `${str[1]} ${str[2]} ${str[3]}`;
-  time = `${str[4]} ${str[5]}`;
+  let str = date_time.toString().split(' ');
+  let date = `${str[1]} ${str[2]} ${str[3]}`;
+  let time = `${str[4]} ${str[5]}`;
+  return { date, time };
 };
 
 const initialize = async () => {
   const data = await getData();
   const notemanager = new NoteManager({
-    el: document.querySelector(".mynotes"),
+    el: document.querySelector('.mynotes'),
     notes: data,
-    page: "all-page",
+    page: 'all-page',
   });
-  const newnotebtn = document.querySelector(".newnote");
-  const clearbtn = document.querySelector(".clear");
+  const newnotebtn = document.querySelector('.newnote');
+  const clearbtn = document.querySelector('.clear');
   newnotebtn.onclick = () => {
-    getTime();
+    const dt = getDT();
     notemanager.addnote({
-      title: " Note added ",
-      body: " (...click to add body...) ",
-      time: time,
-      date: date,
-      url: "#",
+      title: ' Note added ',
+      body: ' (...click to add body...) ',
+      time: dt.time,
+      date: dt.date,
+      url: '#',
       pinned: false,
     });
   };
@@ -41,14 +40,14 @@ const initialize = async () => {
     let notesArray = [...newData];
     notesArray.splice(idx, 1);
     notesArray = [...notesArray, noteobj];
-    await setData(noteobj)
+    await setData(noteobj);
   };
 
-  var srchbar = document.querySelector(".searchin");
+  var srchbar = document.querySelector('.searchin');
 
   srchbar.oninput = () => {
     notemanager.stopdisplay();
-    var el = document.querySelector(".mynotes");
+    var el = document.querySelector('.mynotes');
     var c = 0;
     for (var i = 0; i < notemanager.notes.length; i++) {
       if (
@@ -66,11 +65,15 @@ const initialize = async () => {
       }
     }
     if (c === 0) {
-      el.innerHTML = "<h2>...No notes found...</h2>";
+      el.innerHTML = '<h2>...No notes found...</h2>';
     }
   };
 };
 
-window.onload = () => {
+window.onload = async () => {
+  const user = await getCurrentUser();
+  if (!user) {
+    chrome.tabs.create({ url: './Install Page/index.html' });
+  }
   initialize();
 };

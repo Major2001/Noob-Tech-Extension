@@ -10,7 +10,7 @@ var firebaseConfig = {
 // firestore initialization
 firebase.initializeApp(firebaseConfig);
 const firestore = firebase.firestore();
-const dc = firestore.collection('notes');
+const notesRef = firestore.collection('notes');
 
 // auth initilization
 const provider = new firebase.auth.GoogleAuthProvider();
@@ -19,8 +19,9 @@ provider.setCustomParameters({
 });
 
 export const getDataFirebase = async () => {
-  const querySnapshot = await dc.get();
-  console.log('hello');
+  const currentUserId = getCurrentUser().uid;
+  console.log(currentUserId);
+  const querySnapshot = await notesRef.where('uid', '==', currentUserId).get();
   let data = [];
   querySnapshot.forEach((doc) => {
     data.push(doc.data());
@@ -39,26 +40,22 @@ export const deleteDataFirebase = async (id) => {
   await firestore.collection('notes').doc(id).delete();
 };
 
-
-
 const glogin = async () => {
   const result = await firebase.auth().signInWithPopup(provider);
   console.log(result);
-}
-const getCurrentUser = ()=>{
+};
+export const getCurrentUser = () => {
   return firebase.auth().currentUser;
-}
+};
 
 async function logout() {
-  const resp=await firebase.auth().signOut();
+  await firebase.auth().signOut();
 }
 
 chrome.runtime.onMessage.addListener((msg, sender, resp) => {
   if (msg.command === 'fetch') {
-    console.log('data le raha');
     getDataFirebase().then((data) => resp(data));
   } else if (msg.command === 'set') {
-    console.log('data daal raha');
     setDataFirebase(msg.data).then(() => resp());
   } else if (msg.command === 'delete') {
     console.log('Delete hora hai');
@@ -66,27 +63,12 @@ chrome.runtime.onMessage.addListener((msg, sender, resp) => {
   } else if (msg.command == 'signin') {
     console.log('firebase tk pahuncha');
     glogin().then(() => resp());
-  } else if (msg.command === 'getCurrentUser'){
+  } else if (msg.command === 'getCurrentUser') {
     const user = getCurrentUser();
     resp(user);
-  } 
-  else if (msg.command == 'logout'){
+  } else if (msg.command == 'logout') {
     console.log('logout firebase tk pahuncha');
-    logout().then(()=>resp());
-  } 
+    logout().then(() => resp());
+  }
   return true;
 });
-
-// firebase.auth().onAuthStateChanged((user) => {
-//   if (user) {
-//     console.log("signed in")
-//     document.getElementById('login_button').style.display="none";
-//     document.getElementById('logout_button').style.display="block";
-
-//     var uid = user.uid;
-//   } else {
-//     document.getElementById('login_button').style.display="block";
-//     document.getElementById('logout_button').style.display="none";
-//     console.log("signed out")
-//   }
-// });

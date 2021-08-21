@@ -44,7 +44,7 @@ body {
   transition: all 0.2s ease-in-out;
   /* font-weight: bold; */
 }
-.popup-title:hover{
+.popup-title:hover {
   transform: scaleX(1.05);
 }
 i {
@@ -68,7 +68,7 @@ i {
   max-width: 100%;
 }
 .mynote::before {
-  content: "";
+  content: '';
   position: absolute;
   left: -16px;
   margin-right: 15px;
@@ -99,24 +99,24 @@ i {
   margin-right: 1rem;
   overflow-wrap: break-word;
   max-width: 1300px;
-  font-family: "Caveat", cursive;
+  font-family: 'Caveat', cursive;
 }
 .mynote-body {
   padding: 2%;
   overflow-wrap: break-word;
-  font-family: "Caveat", cursive;
+  font-family: 'Caveat', cursive;
 }
 .mynote-date {
   padding: 0;
   margin-left: 1rem;
   overflow-wrap: break-word;
-  font-family: "Caveat", cursive;
+  font-family: 'Caveat', cursive;
   float: right;
 }
 .mynote-url {
   padding: 0;
   overflow-wrap: break-word;
-  font-family: "Caveat", cursive;
+  font-family: 'Caveat', cursive;
   color: blue;
   overflow: hidden;
 }

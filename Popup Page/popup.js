@@ -10,10 +10,9 @@ getData().then((data) => {
   notemanager.renderNotes();
 });
 window.onload = async () => {
-  // if (!userString) {
-  //   chrome.tabs.create({ url: './Install Page/index.html' });
-  // }
   const user = await getCurrentUser();
-  console.log(user);
-  document.querySelector('.name').innerText = `Hello`;
+  if (!user) {
+    chrome.tabs.create({ url: './Install Page/index.html' });
+  }
+  document.querySelector('.name').innerText = `Hello ${user.displayName}`;
 };

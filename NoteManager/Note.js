@@ -1,6 +1,6 @@
 export default class Note {
   constructor(
-    { title, body, date, time, url, pinned, id = null },
+    { title, body, date, time, url, pinned, id = null, uid },
     notemanager,
     page
   ) {
@@ -14,6 +14,7 @@ export default class Note {
     this.page = page;
     this.notemanager = notemanager;
     this.id = id;
+    this.uid = uid;
   }
   getElement() {
     const tpl = this.gettemplate();
