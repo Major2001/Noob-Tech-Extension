@@ -155,3 +155,25 @@ a {
 .searchin:focus {
   outline: none;
 }
+.mynote-edit{
+  margin: 0.5rem 0rem 1rem 1rem;
+  display: flex;
+  justify-content: center;
+}
+.save-btn{
+    padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 0.3rem;
+  margin-right: 1rem;
+  background-color: #1e7e34;
+  color: #fff;
+  font-weight: bold;
+}
+.cancel-btn{
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.3rem;
+  background-color: #bd2130;
+  color: #fff;
+  font-weight: bold;
+}

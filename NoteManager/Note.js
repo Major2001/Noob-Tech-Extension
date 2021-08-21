@@ -66,6 +66,10 @@ export default class Note {
           <div class="mynote-body" contenteditable>
               {{body}}
           </div>
+          <div class="mynote-edit">
+            <button class="save-btn">Save
+            <button class="cancel-btn">Cancel
+          </div>   
           <div class="mynote-footer">
             <div class="mynote-url" ><a href="{{url}}" target="_blank" class="urltag">
               Link to Page</a>

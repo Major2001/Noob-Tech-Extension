@@ -33,15 +33,15 @@ const initialize = async () => {
     notemanager.clearNotes();
   };
 
-  notemanager.onnotechange = async (noteobj) => {
-    let newData = await getData();
-    let idx = 0;
-    idx = newData.indexOf(newData.find((note) => note.time === noteobj.time));
-    let notesArray = [...newData];
-    notesArray.splice(idx, 1);
-    notesArray = [...notesArray, noteobj];
-    await setData(noteobj);
-  };
+  // notemanager.onnotechange = async (noteobj) => {
+  //   let newData = await getData();
+  //   let idx = 0;
+  //   idx = newData.indexOf(newData.find((note) => note.time === noteobj.time));
+  //   let notesArray = [...newData];
+  //   notesArray.splice(idx, 1);
+  //   notesArray = [...notesArray, noteobj];
+  //   await setData(noteobj);
+  // };
 
   var srchbar = document.querySelector('.searchin');
 
