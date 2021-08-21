@@ -18,26 +18,14 @@ provider.setCustomParameters({
   prompt: 'select_account',
 });
 
-export const getDataFirebase = async () => {
-  const currentUserId = getCurrentUser().uid;
-  console.log(currentUserId);
-  const querySnapshot = await notesRef.where('uid', '==', currentUserId).get();
-  let data = [];
-  querySnapshot.forEach((doc) => {
-    data.push(doc.data());
-  });
-  return data;
-};
-
 export const setDataFirebase = async (note) => {
-  const newDoc = firestore.collection('notes').doc();
+  const newDoc = notesRef.doc();
   await newDoc.set({ ...note, id: newDoc.id });
   note.id = newDoc.id;
 };
 
 export const deleteDataFirebase = async (id) => {
-  console.log(id);
-  await firestore.collection('notes').doc(id).delete();
+  await notesRef.doc(id).delete();
 };
 
 const glogin = async () => {
@@ -48,10 +36,27 @@ export const getCurrentUser = () => {
   return firebase.auth().currentUser;
 };
 
+export const getDataFirebase = async () => {
+  const currentUserId = getCurrentUser().uid;
+  const querySnapshot = await notesRef.where('uid', '==', currentUserId).get();
+  let data = [];
+  querySnapshot.forEach((doc) => {
+    data.push(doc.data());
+  });
+  return data;
+};
 async function logout() {
   await firebase.auth().signOut();
 }
 
+const clearNotes = async () => {
+  const currentUserId = getCurrentUser().uid;
+  const query = notesRef.where('uid', '==', currentUserId);
+  const querySnapshot = await query.get();
+  querySnapshot.forEach(async function (doc) {
+    await doc.ref.delete();
+  });
+};
 chrome.runtime.onMessage.addListener((msg, sender, resp) => {
   if (msg.command === 'fetch') {
     getDataFirebase().then((data) => resp(data));
@@ -69,6 +74,8 @@ chrome.runtime.onMessage.addListener((msg, sender, resp) => {
   } else if (msg.command == 'logout') {
     console.log('logout firebase tk pahuncha');
     logout().then(() => resp());
+  } else if (msg.command === 'clear') {
+    clearNotes().then(() => resp());
   }
   return true;
 });

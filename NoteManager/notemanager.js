@@ -1,5 +1,5 @@
 import Note from '../NoteManager/Note.js';
-import { setData, deleteData } from '../storage.js';
+import { setData, deleteData,clearNotes } from '../storage.js';
 export default class NoteManager {
   constructor({ el, notes, page }) {
     this.el = el;
@@ -75,7 +75,7 @@ export default class NoteManager {
   }
   async clearNotes() {
     this.notes = [];
-    //await setData(this.notes);
+    await clearNotes();
     this.renderNotes();
   }
 }

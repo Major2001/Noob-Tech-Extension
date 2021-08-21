@@ -59,3 +59,11 @@ export const logout = async () => {
   });
   await dataPromise;
 };
+export const clearNotes = async () => {
+  const dataPromise = new Promise((resolve, reject) => {
+    chrome.runtime.sendMessage({ command: 'clear' }, () => {
+      resolve();
+    });
+  });
+  await dataPromise;
+};
