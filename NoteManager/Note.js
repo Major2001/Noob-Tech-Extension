@@ -67,8 +67,8 @@ export default class Note {
               {{body}}
           </div>
           <div class="mynote-edit">
-            <button class="save-btn">Save
-            <button class="cancel-btn">Cancel
+            <button class="save-btn hidden">Save
+            <button class="cancel-btn hidden">Cancel
           </div>   
           <div class="mynote-footer">
             <div class="mynote-url" ><a href="{{url}}" target="_blank" class="urltag">
@@ -117,6 +117,8 @@ export default class Note {
   eventlisteners() {
     const closebtn = this.el.querySelector('.mynote-close');
     const pinBtn = this.el.querySelector('.mynote-pin');
+    const savebtn=this.el.querySelector('.save-btn');
+    const cancelbtn=this.el.querySelector('.cancel-btn');
     closebtn.onclick = () => {
       console.log(this);
       this.notemanager.removenote(this);
@@ -127,8 +129,25 @@ export default class Note {
     const title = this.el.querySelector('.mynote-title');
 
     title.oninput = (ev) => {
-      this.title = ev.target.innerHTML;
-      this.notemanager.onnotechange(this);
+      // this.title = ev.target.innerHTML;
+      // this.notemanager.onnotechange(this);
+      savebtn.classList.remove("hidden");
+      cancelbtn.classList.remove("hidden");
+      var change=ev.target.innerHTML;
+      savebtn.onclick=()=>{
+        //console.log("save")
+        this.title = change;
+        //console.log(ev.target.innerHTML)
+        this.notemanager.onnotechange(this);
+        savebtn.classList.add("hidden")
+        cancelbtn.classList.add("hidden")
+      }
+      cancelbtn.onclick=()=>{
+        //console.log("cancel")
+        title.innerHTML=this.title
+        savebtn.classList.add("hidden")
+        cancelbtn.classList.add("hidden")
+      }
     };
     const body = this.el.querySelector('.mynote-body');
     body.onclick = () => {
@@ -139,9 +158,26 @@ export default class Note {
       }
     };
     body.oninput = (ev) => {
-      this.body = ev.target.innerHTML;
-      this.notemanager.onnotechange(this);
+      savebtn.classList.remove("hidden");
+      cancelbtn.classList.remove("hidden");
+      var change=ev.target.innerHTML;
+      savebtn.onclick=()=>{
+        console.log("save")
+        this.body = change;
+        console.log(ev.target.innerHTML)
+        this.notemanager.onnotechange(this);
+        savebtn.classList.add("hidden")
+        cancelbtn.classList.add("hidden")
+      }
+      cancelbtn.onclick=()=>{
+        console.log("cancel")
+        body.innerHTML=this.body
+        savebtn.classList.add("hidden")
+        cancelbtn.classList.add("hidden")
+      }
+      
     };
+    
   }
   eventlistenersPopup() {
     const mainParent = this.el;
