@@ -59,7 +59,7 @@ export default class NoteManager {
 
   async addnote(note) {
     const noteobj = new Note(note, this, this.page);
-    await setData(noteobj);
+    await setData(note);
     this.notes.push(noteobj);
     const notif = {
       type: 'basic',

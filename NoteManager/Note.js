@@ -152,9 +152,10 @@ export default class Note {
     const body = this.el.querySelector('.mynote-body');
     body.onclick = () => {
       if (this.body === ' (...click to add body...) ') {
-        this.body = ' ';
-        this.notemanager.renderNotes('add-note');
-        this.notemanager.onnotechange(this);
+        // this.body = ' ';
+        // this.notemanager.renderNotes('add-note');
+        // this.notemanager.onnotechange(this);
+        body.innerHTML='';
       }
     };
     body.oninput = (ev) => {

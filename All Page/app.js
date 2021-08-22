@@ -8,7 +8,7 @@ const getDT = () => {
   let time = `${str[4]} ${str[5]}`;
   return { date, time };
 };
-
+var uid;
 const initialize = async () => {
   const data = await getData();
   const notemanager = new NoteManager({
@@ -27,6 +27,7 @@ const initialize = async () => {
       date: dt.date,
       url: '#',
       pinned: false,
+      uid,
     });
   };
   clearbtn.onclick = () => {
@@ -72,6 +73,7 @@ const initialize = async () => {
 
 window.onload = async () => {
   const user = await getCurrentUser();
+  uid=user.uid
   if (!user) {
     chrome.tabs.create({ url: './Install Page/index.html' });
   }
