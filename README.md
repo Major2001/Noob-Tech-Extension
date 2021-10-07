@@ -3,9 +3,7 @@
                                            
   ## Scrap-n-Stick
  
-  
-  
-  ### Project by- Pranav Sharma & Sanchit Gupta
+  ### Project by- Sanchit Gupta and Pranav Sharma
   ### Tech Stack
   * HTML
   * CSS
@@ -26,6 +24,4 @@
  ### Scope of Improvement
  * First of all, the storage provided by the chrome api is limited so we will expand our storage using a database.
  * Improvising the popup interface.  
- We will be looking forward to these changes and some more features in Scran-n-Stick 2.0
- 
-  
+ We will be looking forward to these changes and some more features in Scran-n-Stick 2.0!
